@@ -1,0 +1,11 @@
+.container-fluid {
+    background-color: dodgerblue;
+}
+
+.container-fluid > a {
+    color: white;
+}
+
+li > a {
+    color: white;
+}
