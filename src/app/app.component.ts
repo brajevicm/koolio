@@ -19,4 +19,8 @@ export class AppComponent {
     profile: string = 'Profile';
 
     guestMode: boolean = true;
+    
+    hotMode: boolean;
+    trendingMode: boolean;
+    freshMode: boolean;
 }

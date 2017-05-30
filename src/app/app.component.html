@@ -11,8 +11,12 @@
                 <!--<li><a href="#">{{pageFresh}}</a></li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right" *ngIf="guestMode">
-                <li><a href="#">{{pageRegister}}</a></li>
-                <li><a href="#">{{pageLogin}}</a></li>
+                <li>
+                    <app-login></app-login>
+                </li>
+                <li class="space">
+                    <app-register></app-register>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right" *ngIf="guestMode === false">
                 <li><a href="#">{{profile}}</a></li>

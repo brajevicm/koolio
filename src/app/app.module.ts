@@ -6,10 +6,15 @@ import {HttpModule} from '@angular/http';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {PagesModule} from "./pages/pages.module";
+import {LoginComponent} from './login/login.component';
+import {RegisterComponent} from './register/register.component';
+import {PageComponent} from './page/page.component';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        LoginComponent,
+        RegisterComponent,
     ],
     imports: [
         BrowserModule,

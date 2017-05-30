@@ -1,0 +1,28 @@
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+    padding-right: 1vw;
+}
+
+.icon {
+    width: 3vw;
+    height: 6vh;
+}
+
+.icon-link > {
+    text-decoration: none;
+}
+
+a {
+    color: #265a88;
+}
+
+h2 {
+    font-size: 24px;
+}
