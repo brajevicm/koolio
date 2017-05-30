@@ -9,6 +9,7 @@ import {PagesModule} from "./pages/pages.module";
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {PageComponent} from './page/page.component';
+import {CommentComponent} from './comment/comment.component';
 
 @NgModule({
     declarations: [
