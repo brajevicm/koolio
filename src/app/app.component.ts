@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component} from "@angular/core";
 
 @Component({
     selector: 'app-root',
@@ -6,20 +6,21 @@ import {Component} from '@angular/core';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    pageTitle: string = 'Koolio';
+    pageTitle = 'Koolio';
 
-    pageHot: string = 'Hot';
-    pageTrending: string = 'Trending';
-    pageFresh: string = 'Fresh';
+    pageHot = 'Hot';
+    pageTrending = 'Trending';
+    pageFresh = 'Fresh';
 
-    pageRegister: string = 'Register';
-    pageLogin: string = 'Login';
-    pageLogout: string = 'Logout';
+    pageRegister = 'Register';
+    pageLogin = 'Login';
+    pageLogout = 'Logout';
 
-    profile: string = 'Profile';
+    profile = 'Profile';
+    uploadImage = 'Upload';
 
-    guestMode: boolean = true;
-    
+    guestMode = true;
+
     hotMode: boolean;
     trendingMode: boolean;
     freshMode: boolean;

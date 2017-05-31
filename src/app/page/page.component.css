@@ -23,10 +23,6 @@ li {
     text-decoration: none;
 }
 
-a {
-    color: #265a88;
-}
-
 img {
-    max-width: 40vw;
+    max-width: 100%;
 }

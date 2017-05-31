@@ -1,15 +1,35 @@
 .container-fluid {
-    background-color: dodgerblue;
+    background-color: #ddd;
 }
 
 .container-fluid > a {
     color: white;
 }
 
-li > a {
-    color: white;
+.space {
+    margin-right: 15px;
 }
 
-.space {
-    margin-right: 2vw;
+.nav-space {
+    padding-top: 70px;
+}
+
+a {
+    color: #4d90fe !important;
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: #357ae8 !important;
+    text-decoration: none !important;
+}
+
+body {
+    -webkit-transition: width 2s; /* Safari */
+    transition: width 2s;
+}
+
+div {
+    -webkit-transition: width 2s; /* Safari */
+    transition: width 2s;
 }

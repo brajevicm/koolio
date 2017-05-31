@@ -1,6 +1,6 @@
 <script src="app-routing.module.ts"></script>
-<div>
-    <nav class="nav navbar-default">
+<div class="nav-space">
+    <nav class="nav navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand">{{pageTitle}}</a>
             <ul class="nav navbar-nav">
@@ -19,6 +19,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right" *ngIf="guestMode === false">
+                <li><a href="#">{{uploadImage}}</a></li>
                 <li><a href="#">{{profile}}</a></li>
                 <li><a href="#">{{pageLogout}}</a></li>
             </ul>
