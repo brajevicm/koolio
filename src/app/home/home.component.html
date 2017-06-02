@@ -1,0 +1,28 @@
+<script src="home.component.ts"></script>
+<nav class="nav navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand">Koolio</a>
+        <ul class="nav navbar-nav">
+            <li><a [routerLink]="['/hot']">Hot</a></li>
+            <li><a [routerLink]="['/trending']">Trending</a></li>
+            <li><a [routerLink]="['/fresh']">Fresh</a></li>
+            <alert></alert>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" *ngIf="!currentUser">
+            <li>
+                <app-login></app-login>
+            </li>
+            <li class="space">
+                <app-register></app-register>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" *ngIf="currentUser">
+            <li><a href="#">Upload</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="" (click)="logout()">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <router-outlet></router-outlet>
+</div>

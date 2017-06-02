@@ -1,31 +1,4 @@
 <script src="app-routing.module.ts"></script>
 <div class="nav-space">
-    <nav class="nav navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand">{{pageTitle}}</a>
-            <ul class="nav navbar-nav">
-                <li><a [routerLink]="['/hot']">{{pageHot}}</a></li>
-                <li><a [routerLink]="['/trending']">{{pageTrending}}</a></li>
-                <li><a [routerLink]="['/fresh']">{{pageFresh}}</a></li>
-                <!--<li><a href="#">{{pageTrending}}</a></li>-->
-                <!--<li><a href="#">{{pageFresh}}</a></li>-->
-            </ul>
-            <ul class="nav navbar-nav navbar-right" *ngIf="guestMode">
-                <li>
-                    <app-login></app-login>
-                </li>
-                <li class="space">
-                    <app-register></app-register>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right" *ngIf="guestMode === false">
-                <li><a href="#">{{uploadImage}}</a></li>
-                <li><a href="#">{{profile}}</a></li>
-                <li><a href="#">{{pageLogout}}</a></li>
-            </ul>
-        </div>
-    </nav>
-    <div class="container">
-        <router-outlet></router-outlet>
-    </div>
+    <home></home>
 </div>
