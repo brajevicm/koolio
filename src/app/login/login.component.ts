@@ -1,6 +1,6 @@
 import {Compiler, Component, OnInit} from "@angular/core";
 import {AuthService} from "../_services/auth.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AlertService} from "../_services/alert.service";
 
 @Component({
@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
 
     constructor(private _route: ActivatedRoute,
                 private _compiler: Compiler,
+                private _router: Router,
                 private _authService: AuthService,
                 private _alertService: AlertService) {
     }
@@ -28,6 +29,7 @@ export class LoginComponent implements OnInit {
         this._authService.login(this.model.username, this.model.password)
             .subscribe(
                 data => {
+                    this._router.navigate([this.returnUrl]);
                     this._compiler.clearCache();
                 },
                 error => {

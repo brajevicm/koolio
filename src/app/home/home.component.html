@@ -6,23 +6,25 @@
             <li><a [routerLink]="['/hot']">Hot</a></li>
             <li><a [routerLink]="['/trending']">Trending</a></li>
             <li><a [routerLink]="['/fresh']">Fresh</a></li>
-            <alert></alert>
         </ul>
         <ul class="nav navbar-nav navbar-right" *ngIf="!currentUser">
             <li>
                 <app-login></app-login>
             </li>
             <li class="space">
-                <app-register></app-register>
+                <div class="navbar-form navbar-right">
+                    <a [routerLink]="['/register']" class="btn btn-default">Register</a>
+                </div>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right" *ngIf="currentUser">
             <li><a href="#">Upload</a></li>
-            <li><a href="#">Profile</a></li>
+            <li><a [routerLink]="['/profile']">Profile</a></li>
             <li><a href="" (click)="logout()">Logout</a></li>
         </ul>
     </div>
 </nav>
+<alert></alert>
 <div class="container">
     <router-outlet></router-outlet>
 </div>

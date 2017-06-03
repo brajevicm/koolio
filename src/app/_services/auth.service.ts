@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Http, Response} from "@angular/http";
+import {Headers, Http, Response} from "@angular/http";
 import "rxjs/add/operator/map";
 /**
  * Created by brajevicm on 2/06/17.
@@ -13,7 +13,11 @@ export class AuthService {
     }
 
     login(username: string, password: string) {
-        return this._http.post(this._url, JSON.stringify({username: username, password: password}))
+        let data = "username=" + username + "&password=" + password;
+        // let data = JSON.stringify({username: username, password: password});
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this._url, data, {headers: headers})
             .map((response: Response) => {
                 let user = response.json();
                 if (user && user.token) {

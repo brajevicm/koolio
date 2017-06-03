@@ -1,8 +1,8 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {PagesRoutingModule} from "./pages-routing.module";
-import {PagesComponent} from "./pages.component";
-import {PageComponent} from "../page/page.component";
+import {PostsRoutingModule} from "./posts-routing.module";
+import {PostsComponent} from "./posts.component";
+import {PostComponent} from "./post/post.component";
 import {CommentComponent} from "../comment/comment.component";
 import {PostService} from "../_services/post.service";
 import {FormsModule} from "@angular/forms";
@@ -11,22 +11,22 @@ import {FormsModule} from "@angular/forms";
     imports: [
         CommonModule,
         FormsModule,
-        PagesRoutingModule
+        PostsRoutingModule
     ],
     declarations: [
-        PagesComponent,
-        PageComponent,
+        PostsComponent,
+        PostComponent,
         CommentComponent
     ],
     exports: [
-        PagesComponent,
-        PageComponent,
+        PostsComponent,
+        PostComponent,
         CommentComponent,
-        PagesRoutingModule
+        PostsRoutingModule
     ],
     providers: [
         PostService
     ]
 })
-export class PagesModule {
+export class PostsModule {
 }

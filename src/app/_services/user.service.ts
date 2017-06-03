@@ -12,6 +12,7 @@ import {IUser} from "../_models/user";
 @Injectable()
 export class UserService {
     private _url = 'http://127.0.0.1:80/koolio-api/api/v1/users.php';
+    private _url_create = 'http://127.0.0.1:80/koolio-api/api/v1/register.php';
 
     constructor(private _http: Http) {
     }
@@ -24,8 +25,15 @@ export class UserService {
         return this._http.post(this._url + id, this.jwt()).map((response: Response) => response.json());
     }
 
+    // create(user: IUser) {
+    //     return this._http.post(this._url_create, user, this.jwt())
+    //         .map((response: Response) => response.text());
+    // }
+
     create(user: IUser) {
-        return this._http.post(this._url, user, this.jwt()).map((response: Response) => response.json());
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this._url_create, user, {headers: headers});
     }
 
     update(user: IUser) {
@@ -40,11 +48,12 @@ export class UserService {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser && currentUser.token) {
             let headers = new Headers({'Authorization': 'Bearer' + currentUser.token});
+            headers.append('Content-Type', 'application/x-www-form-urlencoded');
             return new RequestOptions({headers: headers});
         }
     }
 
-    //
+//
 
 
     getFilteredUsers(): Observable<IUser[]> {

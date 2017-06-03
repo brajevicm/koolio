@@ -4,10 +4,10 @@ import {IPost} from "../_models/post";
 
 @Component({
     selector: 'pages',
-    templateUrl: './pages.component.html',
-    styleUrls: ['./pages.component.css']
+    templateUrl: './posts.component.html',
+    styleUrls: ['./posts.component.css']
 })
-export class PagesComponent implements OnInit {
+export class PostsComponent implements OnInit {
     posts: IPost[];
 
     constructor(private _postService: PostService) {

@@ -2,10 +2,10 @@ import {Component, OnInit} from "@angular/core";
 
 @Component({
     selector: 'page',
-    templateUrl: './page.component.html',
-    styleUrls: ['./page.component.css']
+    templateUrl: './post.component.html',
+    styleUrls: ['./post.component.css']
 })
-export class PageComponent implements OnInit {
+export class PostComponent implements OnInit {
 
     constructor() {
     }
