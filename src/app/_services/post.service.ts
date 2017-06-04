@@ -25,7 +25,7 @@ export class PostService {
 
     getPost(id: number): Observable<IPost> {
         return this.getFilteredPosts()
-            .map((users: IPost[]) => users.find(user => user.id === id));
+            .map((posts: IPost[]) => posts.find(post => post.id === id));
     }
 
     private localError(error: Response) {

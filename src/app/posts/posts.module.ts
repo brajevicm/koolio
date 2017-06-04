@@ -22,7 +22,8 @@ import {FormsModule} from "@angular/forms";
         PostsComponent,
         PostComponent,
         CommentComponent,
-        PostsRoutingModule
+        PostsRoutingModule,
+        // AppRoutingModule
     ],
     providers: [
         PostService
