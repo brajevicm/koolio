@@ -11,14 +11,14 @@ import {Injectable} from "@angular/core";
 
 @Injectable()
 export class PostService {
-    private _url = 'http://127.0.0.1:80/koolio-api/api/v1/posts.php';
+    private _url = 'http://127.0.0.1:80/koolio-api/api/posts/get.php';
 
     constructor(private _http: Http) {
     }
 
     getFilteredPosts(): Observable<IPost[]> {
         return this._http.get(this._url)
-            .map((response: Response) => <IPost[]> response.json())
+            .map((response: Response) => <IPost[]> response.json().posts)
             .do(data => console.log('All: ' + JSON.stringify(data)))
             .catch(this.localError);
     }

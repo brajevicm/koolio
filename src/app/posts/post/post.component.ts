@@ -4,6 +4,9 @@ import {Subscription} from "rxjs/Subscription";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PostService} from "../../_services/post.service";
 import {AlertService} from "../../_services/alert.service";
+import {CommentService} from "../../_services/comment.service";
+import {IComment} from "../../_models/comment";
+import {Title} from "@angular/platform-browser";
 
 @Component({
     selector: 'page',
@@ -12,12 +15,16 @@ import {AlertService} from "../../_services/alert.service";
 })
 export class PostComponent implements OnInit {
     post: IPost;
+    comments: IComment[];
+    upvoted = false;
     private sub: Subscription;
 
     constructor(private _route: ActivatedRoute,
                 private _router: Router,
+                private _commentService: CommentService,
                 private _postService: PostService,
-                private _alertService: AlertService) {
+                private _alertService: AlertService,
+                private _title: Title) {
     }
 
     ngOnInit() {
@@ -26,6 +33,9 @@ export class PostComponent implements OnInit {
                 params => {
                     let id = +params['id'];
                     this.getPost(id);
+                    this.getComments(id);
+                    this.checkIfUpvoted();
+                    // this.setTitle("Koolio | " + this.post.title);
                 }
             );
     }
@@ -40,6 +50,26 @@ export class PostComponent implements OnInit {
                 post => this.post = post,
                 error => this._alertService.error(error)
             );
+    }
+
+    getComments(id: number) {
+        this._commentService.getPostComments(id)
+            .subscribe(
+                comments => this.comments = comments,
+                error => this._alertService.error(error)
+            );
+    }
+
+    upvote() {
+        this.upvoted = true;
+    }
+
+    checkIfUpvoted() {
+
+    }
+
+    public setTitle(newTitle: string) {
+        this._title.setTitle(newTitle);
     }
 
 }

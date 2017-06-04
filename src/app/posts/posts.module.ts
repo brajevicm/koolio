@@ -6,6 +6,7 @@ import {PostComponent} from "./post/post.component";
 import {CommentComponent} from "../comment/comment.component";
 import {PostService} from "../_services/post.service";
 import {FormsModule} from "@angular/forms";
+import {CommentService} from "../_services/comment.service";
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import {FormsModule} from "@angular/forms";
         // AppRoutingModule
     ],
     providers: [
-        PostService
+        PostService,
+        CommentService
     ]
 })
 export class PostsModule {

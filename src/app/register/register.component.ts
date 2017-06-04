@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
             + this.model.firstname + "&lastname=" + this.model.lastname + "&image=" + this.model.image;
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        this._http.post('http://127.0.0.1:80/koolio-api/api/v1/register.php', data, {headers: headers})
+        this._http.post('http://127.0.0.1:80/koolio-api/api/users/register.php', data, {headers: headers})
             .map(res => res)
             .subscribe(
                 data => {

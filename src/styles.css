@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+body {
+    font-family: 'Raleway', sans-serif;
+    -webkit-transition: width 2s;
+    transition: width 2s;
+}
+
+div {
+    -webkit-transition: width 2s;
+    transition: width 2s;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+a {
+    color: #c22025;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #a01b1e;
+    text-decoration: none;
+}

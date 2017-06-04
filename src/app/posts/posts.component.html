@@ -21,9 +21,9 @@
                             </div>
                             <!-- Points, Comments -->
                             <p>
-                                <a [routerLink]="['/post', post.id]">{{post.upvotes}} points</a>
-
-                                <a [routerLink]="['/post', post.id]">{{post.comments}} comments</a>
+                                <a [routerLink]="['/post', post.id]">{{post.upvotes}} · upvotes</a>
+                                &nbsp;&nbsp;&nbsp;
+                                <a [routerLink]="['/post', post.id]">{{post.comments}} · comments</a>
                             </p>
                             <!-- Upvote, Downvote, Comment -->
                             <div>

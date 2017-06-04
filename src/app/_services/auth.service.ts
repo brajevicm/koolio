@@ -7,7 +7,7 @@ import "rxjs/add/operator/map";
 
 @Injectable()
 export class AuthService {
-    private _url = 'http://127.0.0.1:80/koolio-api/api/v1/login.php';
+    private _url = 'http://127.0.0.1:80/koolio-api/api/users/login.php';
 
     constructor(private _http: Http) {
     }

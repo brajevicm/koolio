@@ -11,8 +11,8 @@ import {IUser} from "../_models/user";
 
 @Injectable()
 export class UserService {
-    private _url = 'http://127.0.0.1:80/koolio-api/api/v1/users.php';
-    private _url_create = 'http://127.0.0.1:80/koolio-api/api/v1/register.php';
+    private _url = 'http://127.0.0.1:80/koolio-api/api/users/get.php';
+    private _url_create = 'http://127.0.0.1:80/koolio-api/users/register.php';
 
     constructor(private _http: Http) {
     }
@@ -58,7 +58,7 @@ export class UserService {
 
     getFilteredUsers(): Observable<IUser[]> {
         return this._http.get(this._url)
-            .map((response: Response) => <IUser[]> response.json())
+            .map((response: Response) => <IUser[]> response.json().users)
             .do(data => console.log('All: ' + JSON.stringify(data)))
             .catch(this.localError);
     }

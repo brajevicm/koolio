@@ -15,7 +15,8 @@ import {AlertService} from "app/_services/alert.service";
 import {AuthGuard} from "./_guards/auth.guard";
 import {AuthService} from "./_services/auth.service";
 import {UserService} from "./_services/user.service";
-import { ProfileComponent } from './profile/profile.component';
+import {ProfileComponent} from "./profile/profile.component";
+import {PostGuard} from "./_guards/post.guard";
 
 @NgModule({
     declarations: [
@@ -36,6 +37,7 @@ import { ProfileComponent } from './profile/profile.component';
     ],
     providers: [
         AuthGuard,
+        PostGuard,
         AlertService,
         AuthService,
         UserService
