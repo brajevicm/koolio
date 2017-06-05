@@ -9,12 +9,16 @@ import {IPost} from "../_models/post";
 })
 export class PostsComponent implements OnInit {
     posts: IPost[];
+    upvoted = false;
 
     constructor(private _postService: PostService) {
     }
 
     ngOnInit() {
         this.loadAllPosts();
+    }
+
+    ngOnDestroy() {
     }
 
     private loadAllPosts() {
@@ -24,4 +28,7 @@ export class PostsComponent implements OnInit {
             });
     }
 
+    upvote() {
+        this.upvoted = true;
+    }
 }

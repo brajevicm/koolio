@@ -6,6 +6,7 @@ export interface IComment {
     id: number;
     user_id: number;
     user: string;
+    avatar: string;
     post_id: number;
     post: string;
     flag_id: number;
@@ -19,6 +20,7 @@ export class Comment implements IComment {
     id: number;
     user_id: number;
     user: string;
+    avatar: string;
     post_id: number;
     post: string;
     flag_id: number;
@@ -30,6 +32,7 @@ export class Comment implements IComment {
     constructor(id: number,
                 user_id: number,
                 user: string,
+                avatar: string,
                 post_id: number,
                 post: string,
                 flag_id: number,

@@ -1,21 +1,34 @@
-<div class="container">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12 text-center">
+<!--<div class="container">-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6 col-md-offset-3">
                 <div *ngIf="post">
                     <!-- Title -->
                     <header>
-                        <h2><a><strong>{{post.title}}</strong></a></h2>
+                        <h2>
+                            <a>
+                                <strong>{{post.title}}</strong>
+                            </a>
+                            <a class="right glyphicon-position">
+                                <span class="glyphicon glyphicon-hand-right glyphicon-custom"></span>
+                            </a>
+                            <a href="#" class="right glyphicon-position mr-10">
+                                Next Post
+                            </a>
+                        </h2>
                     </header>
                     <p>
                         <a>{{post.upvotes}} · upvotes</a>
                         &nbsp;&nbsp;&nbsp;
                         <a>{{post.comments}} · comments</a>
+                        <a *ngIf="upvoted" class="right glyphicon-position">
+                            <span class="glyphicon glyphicon-heart glyphicon-custom upvoted"></span>
+                        </a>
+                        <a class="right glyphicon-position" *ngIf="!upvoted" (click)="upvote()">
+                            <span class="glyphicon glyphicon-heart glyphicon-custom"></span>
+                        </a>
                     </p>
-                    <a *ngIf="upvoted"><span class="glyphicon glyphicon-chevron-up glyphicon-custom upvoted"></span></a>
-                    <a *ngIf="!upvoted" (click)="upvote()">
-                        <span class="glyphicon glyphicon-chevron-up glyphicon-custom"></span>
-                    </a>
                     <div>
                         <a>
                             <img [src]="post.image" [title]="post.title"
@@ -31,29 +44,44 @@
                 </div>
 
                 <div *ngIf="comments">
-                    <div class="row" *ngFor="let comment of comments">
-                        <div class="col-md-1 col-md-offset-3">
-                            <div class="thumbnail">
-                                <img class="img-responsive user-photo"
-                                     src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
-                            </div><!-- /thumbnail -->
-                        </div><!-- /col-sm-1 -->
-
-                        <div class="col-md-5">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <strong><a href="#">{{comment.user}}</a></strong>&nbsp;&nbsp;&nbsp;
-                                    <span class="text-muted">commented {{comment.timestamp}}</span>
-                                    <span class="text-muted"><a href="#">Upvote</a></span>
-                                </div>
-                                <div class="panel-body">
-                                    {{comment.text}}
-                                </div><!-- /panel-body -->
-                            </div><!-- /panel panel-default -->
-                        </div><!-- /col-sm-5 -->
+                    <div class="row">
+                        <div class="comments-container">
+                            <ul id="comments-list" class="comments-list" *ngFor="let comment of comments">
+                                <li>
+                                    <div class="comment-main-level">
+                                        <div class="comment-avatar">
+                                            <img
+                                                    [src]='comment.avatar'
+                                                    [title]='comment.user'
+                                                    alt="">
+                                        </div>
+                                        <div class="comment-box">
+                                            <div class="comment-head">
+                                                <h6 class="comment-name">
+                                                    <a href="#">
+                                                        {{comment.user}}
+                                                    </a>
+                                                </h6>
+                                                <a *ngIf="upvoted" class="right glyphicon-position">
+                                                    <span class="glyphicon glyphicon-heart glyphicon-custom upvoted"></span>
+                                                </a>
+                                                <a class="right glyphicon-position" *ngIf="!upvoted" (click)="upvote()">
+                                                    <span class="glyphicon glyphicon-heart glyphicon-custom"></span>
+                                                </a>
+                                                <span class="date">{{comment.timestamp | date}}</span>
+                                            </div>
+                                            <div class="comment-content">
+                                                {{comment.text}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!--</div>-->

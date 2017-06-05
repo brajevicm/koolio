@@ -2,12 +2,16 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <div *ngFor="let post of posts" class="content-spacing">
                         <div>
                             <!-- Title -->
                             <header>
-                                <h2><a [routerLink]="['/post', post.id]">{{post.title}}</a></h2>
+                                <h2>
+                                    <a [routerLink]="['/post', post.id]">
+                                        <strong>{{post.title}}</strong>
+                                    </a>
+                                </h2>
                             </header>
                             <!-- Content image -->
                             <div>
@@ -21,36 +25,86 @@
                             </div>
                             <!-- Points, Comments -->
                             <p>
-                                <a [routerLink]="['/post', post.id]">{{post.upvotes}} · upvotes</a>
-                                &nbsp;&nbsp;&nbsp;
+                                <a class="mr-10" [routerLink]="['/post', post.id]">{{post.upvotes}} · upvotes</a>
                                 <a [routerLink]="['/post', post.id]">{{post.comments}} · comments</a>
                             </p>
                             <!-- Upvote, Downvote, Comment -->
                             <div>
                                 <div>
                                     <ul>
-                                        <li><a class="icon-link" href="">
-                                            <img class="icon" src="assets/images/like.png" alt="Like">
-                                        </a>
+                                        <li class="mr-10">
+                                            <a *ngIf="upvoted" href="#">
+                                                <span class="glyphicon glyphicon-heart glyphicon-custom upvoted"></span>
+                                            </a>
+                                            <a *ngIf="!upvoted" href="#">
+                                                <span class="glyphicon glyphicon-heart glyphicon-custom"></span>
+                                            </a>
                                         </li>
-                                        <li><a class="icon-link" href="">
-                                            <img class="icon" src="assets/images/dislike.png" alt="Dislike">
-                                        </a>
-                                        <li><a class="icon-link" href="">
-                                            <img class="icon" src="assets/images/comment.png" alt="Comment">
-                                        </a>
+                                        <li>
+                                            <a href="">
+                                                <span class="glyphicon glyphicon-comment glyphicon-custom"></span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <h2>&nbsp;</h2>
-                    <comment></comment>
-                    <comment></comment>
-                    <comment></comment>
+
+                <div class="col-lg-5">
+
                 </div>
+                <!--<div class="col-md-6">-->
+                <!--<h2>Kool, huh?</h2>-->
+                <!--<div>-->
+                <!--<div class="row">-->
+                <!--<div class="comments-container">-->
+                <!--<ul id="comments-list" class="comments-list">-->
+                <!--<li>-->
+                <!--<div class="comment-main-level">-->
+                <!--<div class="comment-avatar">-->
+                <!--<img src="/assets/images/logo.png">-->
+                <!--&lt;!&ndash;[src]='comment.avatar'&ndash;&gt;-->
+                <!--&lt;!&ndash;[title]='comment.user'&ndash;&gt;-->
+                <!--</div>-->
+                <!--<div class="comment-box">-->
+                <!--<div class="comment-head">-->
+                <!--<h6 class="comment-name">-->
+                <!--<a href="#">-->
+                <!--miloss-->
+                <!--&lt;!&ndash;{{comment.user}}&ndash;&gt;-->
+                <!--</a>-->
+                <!--</h6>-->
+                <!--<a *ngIf="upvoted" class="right glyphicon-position">-->
+                <!--<span class="glyphicon glyphicon-heart glyphicon-custom upvoted"></span>-->
+                <!--</a>-->
+                <!--<a class="right glyphicon-position" *ngIf="!upvoted"-->
+                <!--(click)="upvote()">-->
+                <!--<span class="glyphicon glyphicon-heart glyphicon-custom"></span>-->
+                <!--</a>-->
+                <!--<span class="date">-->
+                <!--2017-->
+                <!--&lt;!&ndash;{{comment.timestamp | date}}&ndash;&gt;-->
+                <!--</span>-->
+                <!--</div>-->
+                <!--<div class="comment-content">-->
+                <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit.-->
+                <!--Accusantium adipisci earum, itaque quae qui quia voluptates! Animi-->
+                <!--cum cumque dolorum ducimus, facilis illum libero quam quibusdam-->
+                <!--tempora veritatis voluptatibus, voluptatum!-->
+                <!--&lt;!&ndash;{{comment.text}}&ndash;&gt;-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+
+
             </div>
         </div>
     </div>

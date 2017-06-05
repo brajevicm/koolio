@@ -35,7 +35,7 @@ export class PostComponent implements OnInit {
                     this.getPost(id);
                     this.getComments(id);
                     this.checkIfUpvoted();
-                    // this.setTitle("Koolio | " + this.post.title);
+                    // this.setTitle(id.toLocaleString());
                 }
             );
     }
@@ -44,11 +44,14 @@ export class PostComponent implements OnInit {
         this.sub.unsubscribe();
     }
 
+    ngOnChanges() {
+    }
+
     getPost(id: number) {
         this._postService.getPost(id)
             .subscribe(
                 post => this.post = post,
-                error => this._alertService.error(error)
+                error => this._alertService.error(error),
             );
     }
 
@@ -64,12 +67,16 @@ export class PostComponent implements OnInit {
         this.upvoted = true;
     }
 
+    nextPost() {
+
+    }
+
     checkIfUpvoted() {
 
     }
 
     public setTitle(newTitle: string) {
-        this._title.setTitle(newTitle);
+        return this._title.setTitle(newTitle);
     }
 
 }
