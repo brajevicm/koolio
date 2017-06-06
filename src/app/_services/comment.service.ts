@@ -2,6 +2,7 @@ import {Headers, Http, Response} from "@angular/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {IComment} from "../_models/comment";
+import {IPost} from "../_models/post";
 /**
  * Created by brajevicm on 4/06/17.
  */
@@ -9,6 +10,7 @@ import {IComment} from "../_models/comment";
 @Injectable()
 export class CommentService {
     private _url = 'http://127.0.0.1:80/koolio-api/api/comments/get.php';
+    private _url_user = 'http://127.0.0.1:80/koolio-api/api/comments/user.php';
 
     constructor(private _http: Http) {
     }
@@ -27,6 +29,16 @@ export class CommentService {
         return this._http.post(this._url, data, {headers: headers})
             .map((response: Response) => <IComment[]> response.json().comments)
             .do(data => console.log('All: ' + JSON.stringify(data)));
+    }
+
+    getCommentsFromUser(id: number): Observable<IComment[]> {
+        let data = "user_id=" + id;
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this._url_user, data, {headers: headers})
+            .map((response: Response) => <IPost[]> response.json().comments)
+            .do(data => console.log('All: ' + JSON.stringify(data)))
+            .catch(this.localError);
     }
 
     getComment(id: number): Observable<IComment> {

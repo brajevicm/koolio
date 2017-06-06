@@ -1,9 +1,9 @@
 <div class="container">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row" *ngIf="posts">
             <div class="col-md-12">
                 <div class="col-md-7">
-                    <div *ngFor="let post of posts" class="content-spacing">
+                    <div *ngFor="let post of posts" class="content-spacing fade in">
                         <div>
                             <!-- Title -->
                             <header>

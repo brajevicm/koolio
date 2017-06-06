@@ -25,7 +25,7 @@ import {PostGuard} from "./_guards/post.guard";
         LoginComponent,
         RegisterComponent,
         AlertComponent,
-        ProfileComponent
+        ProfileComponent,
     ],
     imports: [
         BrowserModule,

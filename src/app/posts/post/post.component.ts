@@ -37,7 +37,8 @@ export class PostComponent implements OnInit {
                     this.checkIfUpvoted();
                     // this.setTitle(id.toLocaleString());
                 }
-            );
+            )
+        ;
     }
 
     ngOnDestroy() {

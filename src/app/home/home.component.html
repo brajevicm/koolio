@@ -21,21 +21,24 @@
 
             <div id="navbar9" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-left">
-                    <li (click)="setTitle( 'Koolio | Hot' )" [routerLinkActive]="['underline']"><a
+                    <li (click)="setTitle('Koolio | Hot' )" [routerLinkActive]="['underline']"><a
                             [routerLink]="['/hot']">Hot</a></li>
-                    <li (click)="setTitle( 'Koolio | Trending')" [routerLinkActive]="['underline']"><a
+                    <li (click)="setTitle('Koolio | Trending')" [routerLinkActive]="['underline']"><a
                             [routerLink]="['/trending']">Trending</a></li>
-                    <li (click)="setTitle( 'Koolio | Fresh')" [routerLinkActive]="['underline']"><a
+                    <li (click)="setTitle('Koolio | Fresh')" [routerLinkActive]="['underline']"><a
                             [routerLink]="['/fresh']">Fresh</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" *ngIf="!currentUser">
+                    <li (click)="setTitle('Koolio | Register')" [routerLinkActive]="['underline']">
+                        <a [routerLink]="['/register']">Register</a>
+                    </li>
                     <li>
                         <app-login></app-login>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" *ngIf="currentUser">
                     <li [routerLinkActive]="['underline']"><a href="#">Upload</a></li>
-                    <li (click)="setTitle( 'Koolio | Profile')" [routerLinkActive]="['underline']"><a
+                    <li (click)="setTitle('Koolio | Profile')" [routerLinkActive]="['underline']"><a
                             [routerLink]="['/profile']">Profile</a></li>
                     <li><a href="" (click)="logout()">Logout</a></li>
                 </ul>
