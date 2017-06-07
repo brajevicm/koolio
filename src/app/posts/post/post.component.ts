@@ -35,7 +35,6 @@ export class PostComponent implements OnInit {
                     this.getPost(id);
                     this.getComments(id);
                     this.checkIfUpvoted();
-                    // this.setTitle(id.toLocaleString());
                 }
             )
         ;
@@ -46,6 +45,9 @@ export class PostComponent implements OnInit {
     }
 
     ngOnChanges() {
+        // if (this.post) {
+        //     this.setTitle("Koolio | " + this.post.title);
+        // }
     }
 
     getPost(id: number) {

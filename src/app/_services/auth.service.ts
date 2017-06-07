@@ -8,6 +8,7 @@ import "rxjs/add/operator/map";
 @Injectable()
 export class AuthService {
     private _url = 'http://127.0.0.1:80/koolio-api/api/users/login.php';
+    private _url_get = 'http://127.0.0.1:80/koolio-api/api/users/get.php';
 
     constructor(private _http: Http) {
     }
@@ -21,7 +22,7 @@ export class AuthService {
             .map((response: Response) => {
                 let user = response.json();
                 if (user && user.token) {
-                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    localStorage.setItem('currentUser', JSON.stringify(user.token));
                 }
             });
     }

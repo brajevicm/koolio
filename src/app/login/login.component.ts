@@ -3,6 +3,7 @@ import {AuthService} from "../_services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AlertService} from "../_services/alert.service";
 import {TimerObservable} from "rxjs/observable/TimerObservable";
+import {IUser} from "../_models/user";
 
 
 @Component({
@@ -14,6 +15,7 @@ export class LoginComponent implements OnInit {
     model: any = {};
     loading = false;
     returnUrl: string;
+    user: IUser;
 
     constructor(private _route: ActivatedRoute,
                 private _router: Router,
@@ -40,7 +42,7 @@ export class LoginComponent implements OnInit {
                     this._alertService.error(error);
                     this.loading = false;
                 }
-            );
+            )
+        ;
     }
-
 }

@@ -3,6 +3,7 @@ import {IUser} from "../_models/user";
 import {AuthService} from "app/_services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Title} from "@angular/platform-browser";
+import {UserService} from "../_services/user.service";
 // ...
 
 @Component({
@@ -13,9 +14,10 @@ import {Title} from "@angular/platform-browser";
 
 export class HomeComponent implements OnInit {
     currentUser: IUser;
-    current: boolean;
+    user: IUser;
 
-    constructor(private _authService: AuthService,
+    constructor(private _userService: UserService,
+                private _authService: AuthService,
                 private _router: Router,
                 private _route: ActivatedRoute,
                 private _title: Title) {
@@ -23,6 +25,16 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (this.currentUser) {
+            this.getUser(localStorage.getItem('currentUser'));
+        }
+    }
+
+    getUser(token: string) {
+        this._userService.getUser(token)
+            .subscribe(user => {
+                this.user = user;
+            });
     }
 
     logout() {

@@ -5,6 +5,7 @@ import "rxjs/add/operator/do";
 import "rxjs/add/operator/catch";
 import {Observable} from "rxjs/Observable";
 import {IUser} from "../_models/user";
+import {Subject} from "rxjs/Subject";
 /**
  * Created by brajevicm on 2/06/17.
  */
@@ -13,6 +14,8 @@ import {IUser} from "../_models/user";
 export class UserService {
     private _url = 'http://127.0.0.1:80/koolio-api/api/users/get.php';
     private _url_create = 'http://127.0.0.1:80/koolio-api/users/register.php';
+    private _url_get = 'http://127.0.0.1:80/koolio-api/api/users/get.php';
+    private subject = new Subject<IUser>();
 
     constructor(private _http: Http) {
     }
@@ -63,10 +66,30 @@ export class UserService {
             .catch(this.localError);
     }
 
-    getUser(id: number): Observable<IUser> {
-        return this.getFilteredUsers()
-            .map((users: IUser[]) => users.find(user => user.id === id));
+    getUser(token: string): Observable<IUser> {
+        token = token.replace(/['"]+/g, '');
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('token', token);
+        return this._http.get(this._url, {headers: headers})
+            .map((response: Response) => <IUser> response.json())
+            // .do(data => console.log('All: ' + JSON.stringify(data)))
+            .catch(this.localError);
     }
+
+    // setUser(token: string): Observable<IUser> {
+    //     this.subject.next()
+    //     let headers = new Headers();
+    //     headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    //     headers.append('token', token);
+    //     return this._http.get(this._url_get, {headers: headers})
+    //         .map((response: Response) => <IUser> response.json())
+    //         .do(data => console.log('All: ' + JSON.stringify(data)));
+    // }
+
+    // getUser(): Observable<IUser> {
+    //     return this.subject.asObservable();
+    // }
 
     private localError(error: Response) {
         console.error(error);

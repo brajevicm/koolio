@@ -28,7 +28,7 @@ export class CommentService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this._url, data, {headers: headers})
             .map((response: Response) => <IComment[]> response.json().comments)
-            .do(data => console.log('All: ' + JSON.stringify(data)));
+        // .do(data => console.log('All: ' + JSON.stringify(data)));
     }
 
     getCommentsFromUser(id: number): Observable<IComment[]> {
@@ -37,7 +37,7 @@ export class CommentService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this._url_user, data, {headers: headers})
             .map((response: Response) => <IPost[]> response.json().comments)
-            .do(data => console.log('All: ' + JSON.stringify(data)))
+            // .do(data => console.log('All: ' + JSON.stringify(data)))
             .catch(this.localError);
     }
 

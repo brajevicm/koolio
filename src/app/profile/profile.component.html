@@ -1,11 +1,12 @@
-<div class="container">
+<div class="container" *ngIf="user">
     <div class="col-lg-12 col-sm-12">
         <div class="card hovercard">
             <div class="card-background"></div>
             <div class="useravatar">
-                <img alt="" src="/assets/images/profile.jpg">
+                <img
+                        [src]="user.image">
             </div>
-            <div class="card-info"><span class="card-title">brajevic</span>
+            <div class="card-info"><span class="card-title">{{user.username}}</span>
             </div>
         </div>
         <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
@@ -64,24 +65,24 @@
                 </div>
 
                 <div class="tab-pane fade in" id="tab2">
-                    <div *ngIf="posts" class="shrink content-spacing">
-                        <div *ngFor="let post of upvotes">
+                    <div *ngIf="upvotedPosts" class="shrink content-spacing">
+                        <div *ngFor="let upvotedPost of upvotedPosts">
                             <!-- Title -->
                             <header>
                                 <h2>
-                                    <a [routerLink]="['/post', post.id]">
-                                        <strong>{{post.title}}</strong>
+                                    <a [routerLink]="['/post', upvotedPost.id]">
+                                        <strong>{{upvotedPost.title}}</strong>
                                     </a>
                                 </h2>
                             </header>
                             <p>
-                                <a [routerLink]="['/post', post.id]">{{post.upvotes}} · upvotes</a>
+                                <a [routerLink]="['/post', upvotedPost.id]">{{upvotedPost.upvotes}} · upvotes</a>
                                 &nbsp;&nbsp;&nbsp;
-                                <a [routerLink]="['/post', post.id]">{{post.comments}} · comments</a>
+                                <a [routerLink]="['/post', upvotedPost.id]">{{upvotedPost.comments}} · comments</a>
                             </p>
                             <div>
-                                <a [routerLink]="['/post', post.id]">
-                                    <img [src]="post.image" [title]="post.title"
+                                <a [routerLink]="['/post', upvotedPost.id]">
+                                    <img [src]="upvotedPost.image" [title]="upvotedPost.title"
                                          class="img-responsive img-post">
                                 </a>
                             </div>

@@ -52,9 +52,193 @@
                     </div>
                 </div>
 
-                <div class="col-lg-5">
-
+                <div id="images" class="col-md-5">
+                    <div class="fixed">
+                        <h2>Top Commented</h2>
+                        <div class="item" *ngFor="let post of posts">
+                            <a [routerLink]="['/post', post.id]">
+                                <img [src]="post.image" [alt]="post.title">
+                            </a>
+                        </div>
+                    </div>
                 </div>
+
+                <!--<div class="col-md-4 col-md-offset-1">-->
+                <!--<h2>Top Commented</h2>-->
+
+                <!--<div class="well-none">-->
+                <!--<div id="myCarousel" class="carousel slide">-->
+
+                <!--&lt;!&ndash; Carousel items &ndash;&gt;-->
+                <!--<div class="carousel-inner">-->
+                <!--<div class="item active">-->
+                <!--<div class="row">-->
+                <!--<div class="col-sm-3 col-xs-6"><a href="#x"><img-->
+                <!--src="http://placehold.it/500x500" alt="Image"-->
+                <!--class="img-responsive"></a>-->
+                <!--</div>-->
+                <!--<div class="col-sm-3 col-xs-6"><a href="#x"><img-->
+                <!--src="http://placehold.it/500x500" alt="Image"-->
+                <!--class="img-responsive"></a>-->
+                <!--</div>-->
+                <!--<div class="col-sm-3 col-xs-6"><a href="#x"><img-->
+                <!--src="http://placehold.it/500x500" alt="Image"-->
+                <!--class="img-responsive"></a>-->
+                <!--</div>-->
+                <!--<div class="col-sm-3 col-xs-6"><a href="#x"><img-->
+                <!--src="http://placehold.it/500x500" alt="Image"-->
+                <!--class="img-responsive"></a>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;/row&ndash;&gt;-->
+                <!--</div>-->
+                <!--&lt;!&ndash;/item&ndash;&gt;-->
+                <!--<div class="item">-->
+                <!--<div class="row">-->
+                <!--<div class="col-sm-3 col-xs-6"><a href="#x col-xs-6" class="thumbnail"><img-->
+                <!--src="http://placehold.it/250x250" alt="Image"-->
+                <!--class="img-responsive"></a>-->
+                <!--</div>-->
+                <!--<div class="col-sm-3 col-xs-6"><a href="#x" class="thumbnail"><img-->
+                <!--src="http://placehold.it/250x250" alt="Image"-->
+                <!--class="img-responsive"></a>-->
+                <!--</div>-->
+                <!--<div class="col-sm-3 col-xs-6"><a href="#x" class="thumbnail"><img-->
+                <!--src="http://placehold.it/250x250" alt="Image"-->
+                <!--class="img-responsive"></a>-->
+                <!--</div>-->
+                <!--<div class="col-sm-3 col-xs-6"><a href="#x" class="thumbnail"><img-->
+                <!--src="http://placehold.it/250x250" alt="Image"-->
+                <!--class="img-responsive"></a>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;/row&ndash;&gt;-->
+                <!--</div>-->
+                <!--&lt;!&ndash;/item&ndash;&gt;-->
+                <!--<div class="item">-->
+                <!--<div class="row">-->
+                <!--<div class="col-sm-3 col-xs-6"><a href="#x" class="thumbnail"><img-->
+                <!--src="http://placehold.it/250x250" alt="Image"-->
+                <!--class="img-responsive"></a>-->
+                <!--</div>-->
+                <!--<div class="col-sm-3 col-xs-6"><a href="#x" class="thumbnail"><img-->
+                <!--src="http://placehold.it/250x250" alt="Image"-->
+                <!--class="img-responsive"></a>-->
+                <!--</div>-->
+                <!--<div class="col-sm-3 col-xs-6"><a href="#x" class="thumbnail"><img-->
+                <!--src="http://placehold.it/250x250" alt="Image"-->
+                <!--class="img-responsive"></a>-->
+                <!--</div>-->
+                <!--<div class="col-sm-3 col-xs-6"><a href="#x" class="thumbnail"><img-->
+                <!--src="http://placehold.it/250x250" alt="Image"-->
+                <!--class="img-responsive"></a>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;/row&ndash;&gt;-->
+                <!--</div>-->
+                <!--&lt;!&ndash;/item&ndash;&gt;-->
+                <!--</div>-->
+                <!--&lt;!&ndash;/carousel-inner&ndash;&gt;-->
+                <!--<a class="left carousel-control" href="#myCarousel" data-slide="prev"><i-->
+                <!--class="fa fa-chevron-left fa-4"></i></a>-->
+
+                <!--<a class="right carousel-control" href="#myCarousel" data-slide="next"><i-->
+                <!--class="fa fa-chevron-right fa-4"></i></a>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;/myCarousel&ndash;&gt;-->
+                <!--</div>-->
+                <!--&lt;!&ndash;/well&ndash;&gt;-->
+                <!--</div>-->
+
+
+                <!--<div class="col-md-5">-->
+                <!--<div class="span12">-->
+                <!--<div class="well">-->
+                <!--<div id="myCarousel" class="carousel slide">-->
+
+                <!--<ol class="carousel-indicators">-->
+                <!--<li data-target="#myCarousel" data-slide-to="0" class="active"></li>-->
+                <!--<li data-target="#myCarousel" data-slide-to="1"></li>-->
+                <!--<li data-target="#myCarousel" data-slide-to="2"></li>-->
+                <!--</ol>-->
+
+                <!--&lt;!&ndash; Carousel items &ndash;&gt;-->
+                <!--<div class="carousel-inner">-->
+
+                <!--<div class="item active">-->
+                <!--<div class="row-fluid">-->
+                <!--<div class="span3">-->
+                <!--<a href="#" class="thumbnail">-->
+                <!--<img class="thumbnail-img"-->
+                <!--src="http://placehold.it/250x250"-->
+                <!--alt="Image"-->
+                <!--/>-->
+                <!--</a>-->
+                <!--</div>-->
+                <!--<div class="span3">-->
+                <!--<a href="#" class="thumbnail">-->
+                <!--<img class="thumbnail-img"-->
+                <!--src="http://placehold.it/250x250"-->
+                <!--alt="Image"-->
+                <!--/>-->
+                <!--</a>-->
+                <!--</div>-->
+                <!--<div class="span3">-->
+                <!--<a href="#" class="thumbnail">-->
+                <!--<img class="thumbnail-img"-->
+                <!--src="http://placehold.it/250x250"-->
+                <!--alt="Image"-->
+                <!--/>-->
+                <!--</a>-->
+                <!--</div>-->
+                <!--</div>&lt;!&ndash;/row-fluid&ndash;&gt;-->
+                <!--</div>&lt;!&ndash;/item&ndash;&gt;-->
+
+                <!--<div class="item">-->
+                <!--<div class="row-fluid">-->
+                <!--<div class="span3">-->
+                <!--<a href="#" class="thumbnail">-->
+                <!--<img class="thumbnail-img"-->
+                <!--src="http://placehold.it/250x250"-->
+                <!--alt="Image"-->
+                <!--/>-->
+                <!--</a>-->
+                <!--</div>-->
+                <!--<div class="">-->
+                <!--<a href="#" class="thumbnail">-->
+                <!--<img class="thumbnail-img"-->
+                <!--src="http://placehold.it/250x250"-->
+                <!--alt="Image"-->
+                <!--/>-->
+                <!--</a>-->
+                <!--</div>-->
+                <!--<div class="">-->
+                <!--<a href="#" class="thumbnail">-->
+                <!--<img class="thumbnail-img"-->
+                <!--src="http://placehold.it/250x250"-->
+                <!--alt="Image"-->
+                <!--/>-->
+                <!--</a>-->
+                <!--</div>-->
+                <!--</div>&lt;!&ndash;/row-fluid&ndash;&gt;-->
+                <!--</div>&lt;!&ndash;/item&ndash;&gt;-->
+
+                <!--<div class="item">-->
+                <!--<div class="row-fluid">-->
+
+                <!--</div>&lt;!&ndash;/row-fluid&ndash;&gt;-->
+                <!--</div>&lt;!&ndash;/item&ndash;&gt;-->
+
+                <!--</div>&lt;!&ndash;/carousel-inner&ndash;&gt;-->
+
+                <!--<a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>-->
+                <!--<a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>-->
+                <!--</div>&lt;!&ndash;/myCarousel&ndash;&gt;-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+
+
                 <!--<div class="col-md-6">-->
                 <!--<h2>Kool, huh?</h2>-->
                 <!--<div>-->
