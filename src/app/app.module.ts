@@ -17,6 +17,8 @@ import {AuthService} from "./_services/auth.service";
 import {UserService} from "./_services/user.service";
 import {ProfileComponent} from "./profile/profile.component";
 import {PostGuard} from "./_guards/post.guard";
+import {UploadComponent} from "./upload/upload.component";
+import {Ng2UploaderModule} from "ng2-uploader";
 
 @NgModule({
     declarations: [
@@ -26,6 +28,7 @@ import {PostGuard} from "./_guards/post.guard";
         RegisterComponent,
         AlertComponent,
         ProfileComponent,
+        UploadComponent,
     ],
     imports: [
         BrowserModule,
@@ -33,7 +36,8 @@ import {PostGuard} from "./_guards/post.guard";
         AppRoutingModule,
         HttpModule,
         CommonModule,
-        PostsModule
+        PostsModule,
+        Ng2UploaderModule
     ],
     providers: [
         AuthGuard,

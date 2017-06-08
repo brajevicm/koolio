@@ -25,7 +25,7 @@
                         <a *ngIf="upvoted" class="right glyphicon-position">
                             <span class="glyphicon glyphicon-heart glyphicon-custom upvoted"></span>
                         </a>
-                        <a class="right glyphicon-position" *ngIf="!upvoted" (click)="upvote()">
+                        <a class="right glyphicon-position" (click)="upvotePost(post.id)">
                             <span class="glyphicon glyphicon-heart glyphicon-custom"></span>
                         </a>
                     </p>
@@ -65,7 +65,7 @@
                                                 <a *ngIf="upvoted" class="right glyphicon-position">
                                                     <span class="glyphicon glyphicon-heart glyphicon-custom upvoted"></span>
                                                 </a>
-                                                <a class="right glyphicon-position" *ngIf="!upvoted" (click)="upvote()">
+                                                <a class="right glyphicon-position" (click)="upvoteComment(comment.id)">
                                                     <span class="glyphicon glyphicon-heart glyphicon-custom"></span>
                                                 </a>
                                                 <span class="date">{{comment.timestamp | date}}</span>

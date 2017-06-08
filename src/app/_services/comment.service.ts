@@ -10,14 +10,43 @@ import {IComment} from "../_models/comment";
 export class CommentService {
     private _url = 'http://127.0.0.1:80/koolio-api/api/comments/get.php';
     private _url_user = 'http://127.0.0.1:80/koolio-api/api/comments/user.php';
+    private _url_add = 'http://127.0.0.1:80/koolio-api/api/comments/add.php';
+    private _url_upvote = 'http://127.0.0.1:80/koolio-api/api/comments/upvote.php';
 
     constructor(private _http: Http) {
+    }
+
+    addComment(token: string, id: number, text: string) {
+        let data = "post_id=" + id + "&text=" + text;
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('token', token);
+        this._http.post(this._url_upvote, data, {headers: headers})
+            .map(res => res)
+            .subscribe(data => data,
+                err => this.localError(err)
+            )
+        ;
+    }
+
+    upvoteComment(token: string, id: number): void {
+        token = token.replace(/['"]+/g, '');
+        let data = "comment_id=" + id;
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('token', token);
+        this._http.post(this._url_upvote, data, {headers: headers})
+            .map(res => res)
+            .subscribe(data => data,
+                err => this.localError(err)
+            )
+        ;
     }
 
     getFilteredcomments(): Observable<IComment[]> {
         return this._http.get(this._url)
             .map((response: Response) => <IComment[]> response.json())
-            .do(data => console.log('All: ' + JSON.stringify(data)))
+            // .do(data => console.log('All: ' + JSON.stringify(data)))
             .catch(this.localError);
     }
 
@@ -27,7 +56,7 @@ export class CommentService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this._url, data, {headers: headers})
             .map((response: Response) => <IComment[]> response.json().comments)
-            .do(data => console.log('getPostComments: ' + JSON.stringify(data)));
+        // .do(data => console.log('getPostComments: ' + JSON.stringify(data)));
     }
 
     getCommentsFromUser(token: string): Observable<IComment[]> {
@@ -37,13 +66,8 @@ export class CommentService {
         headers.append('token', token);
         return this._http.get(this._url_user, {headers: headers})
             .map((response: Response) => <IComment[]> response.json().comments)
-            .do(data => console.log('getCommentsFromUser: ' + JSON.stringify(data)))
+            // .do(data => console.log('getCommentsFromUser: ' + JSON.stringify(data)))
             .catch(this.localError);
-    }
-
-    getComment(id: number): Observable<IComment> {
-        return this.getFilteredcomments()
-            .map((comments: IComment[]) => comments.find(comment => comment.id === id));
     }
 
     private localError(error: Response) {

@@ -33,15 +33,15 @@
                                 <div>
                                     <ul>
                                         <li class="mr-10">
-                                            <a *ngIf="upvoted" href="#">
+                                            <a *ngIf="post.upvoted == '1'">
                                                 <span class="glyphicon glyphicon-heart glyphicon-custom upvoted"></span>
                                             </a>
-                                            <a *ngIf="!upvoted" href="#">
-                                                <span class="glyphicon glyphicon-heart glyphicon-custom"></span>
+                                            <a (click)="upvote(post.id)">
+                                                <span class=" glyphicon glyphicon-heart glyphicon-custom"></span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="">
+                                            <a>
                                                 <span class="glyphicon glyphicon-comment glyphicon-custom"></span>
                                             </a>
                                         </li>

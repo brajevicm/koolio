@@ -25,17 +25,17 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.currentUser) {
-            this.getUser(localStorage.getItem('currentUser'));
-        }
+        // if (this.currentUser) {
+        //     this.getUser(localStorage.getItem('currentUser'));
+        // }
     }
 
-    getUser(token: string) {
-        this._userService.getUser(token)
-            .subscribe(user => {
-                this.user = user;
-            });
-    }
+    // getUser(token: string) {
+    //     this._userService.getUser(token)
+    //         .subscribe(user => {
+    //             this.user = user;
+    //         });
+    // }
 
     logout() {
         this._authService.logout();

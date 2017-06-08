@@ -12,6 +12,7 @@ export interface IPost {
     timestamp: string;
     upvotes: number;
     comments: number;
+    upvoted: number;
 }
 
 export class Post implements IPost {
@@ -25,6 +26,7 @@ export class Post implements IPost {
     timestamp: string;
     upvotes: number;
     comments: number;
+    upvoted: number;
 
     constructor(id: number,
                 user_id: number,
@@ -35,6 +37,7 @@ export class Post implements IPost {
                 image: string,
                 timestamp: string,
                 upvotes: number,
-                comments: number) {
+                comments: number,
+                upvoted: number) {
     }
 }

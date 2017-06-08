@@ -66,8 +66,14 @@ export class PostComponent implements OnInit {
             );
     }
 
-    upvote() {
-        this.upvoted = true;
+    private upvotePost(post_id: any) {
+        post_id = parseFloat(post_id.toString());
+        this._postService.upvotePost(localStorage.getItem('currentUser'), post_id);
+    }
+
+    private upvoteComment(comment_id: any) {
+        comment_id = parseFloat(comment_id.toString());
+        this._commentService.upvoteComment(localStorage.getItem('currentUser'), comment_id);
     }
 
     nextPost() {

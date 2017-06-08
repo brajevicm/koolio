@@ -4,6 +4,7 @@ import {RegisterComponent} from "./register/register.component";
 import {AuthGuard} from "./_guards/auth.guard";
 import {ProfileComponent} from "./profile/profile.component";
 import {PostsComponent} from "app/posts/posts.component";
+import {UploadComponent} from "./upload/upload.component";
 
 @NgModule({
     imports: [
@@ -11,6 +12,7 @@ import {PostsComponent} from "app/posts/posts.component";
             [
                 {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
                 {path: 'register', component: RegisterComponent},
+                {path: 'upload', component: UploadComponent, canActivate: [AuthGuard]},
                 {path: '', component: PostsComponent},
                 // {path: '**', redirectTo: 'hot', pathMatch: 'full'}
             ]

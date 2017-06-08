@@ -37,9 +37,12 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" *ngIf="currentUser">
-                    <li [routerLinkActive]="['underline']"><a href="#">Upload</a></li>
-                    <li (click)="setTitle('Koolio | Profile')" [routerLinkActive]="['underline']"><a
-                            [routerLink]="['/profile']">Profile</a></li>
+                    <li [routerLinkActive]="['underline']">
+                        <a [routerLink]="['/upload']">Upload</a>
+                    </li>
+                    <li (click)="setTitle('Koolio | Profile')" [routerLinkActive]="['underline']">
+                        <a [routerLink]="['/profile']">Profile</a>
+                    </li>
                     <li><a href="" (click)="logout()">Logout</a></li>
                 </ul>
             </div>

@@ -9,7 +9,6 @@ import {IPost} from "../_models/post";
 })
 export class PostsComponent implements OnInit {
     posts: IPost[];
-    upvoted = false;
 
     constructor(private _postService: PostService) {
     }
@@ -25,10 +24,12 @@ export class PostsComponent implements OnInit {
         this._postService.getFilteredPosts()
             .subscribe(posts => {
                 this.posts = posts;
-            });
+            })
+        ;
     }
 
-    upvote() {
-        this.upvoted = true;
+    private upvote(post_id: any) {
+        post_id = parseFloat(post_id.toString());
+        this._postService.upvotePost(localStorage.getItem('currentUser'), post_id);
     }
 }
