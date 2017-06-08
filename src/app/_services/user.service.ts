@@ -73,7 +73,7 @@ export class UserService {
         headers.append('token', token);
         return this._http.get(this._url, {headers: headers})
             .map((response: Response) => <IUser> response.json())
-            // .do(data => console.log('All: ' + JSON.stringify(data)))
+            .do(data => console.log('All: ' + JSON.stringify(data)))
             .catch(this.localError);
     }
 

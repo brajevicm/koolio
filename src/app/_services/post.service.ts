@@ -25,23 +25,25 @@ export class PostService {
             .catch(this.localError);
     }
 
-    getPostsFromUser(id: number): Observable<IPost[]> {
-        let data = "user_id=" + id;
+    getPostsFromUser(token: string): Observable<IPost[]> {
+        token = token.replace(/['"]+/g, '');
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this._http.post(this._url_user, data, {headers: headers})
+        headers.append('token', token);
+        return this._http.get(this._url_user, {headers: headers})
             .map((response: Response) => <IPost[]> response.json().posts)
-            // .do(data => console.log('All: ' + JSON.stringify(data)))
+            .do(data => console.log('getPostsFromUser: ' + JSON.stringify(data)))
             .catch(this.localError);
     }
 
-    getUpvotedPosts(id: number): Observable<IPost[]> {
-        let data = "user_id=" + id;
+    getUpvotedPosts(token: string): Observable<IPost[]> {
+        token = token.replace(/['"]+/g, '');
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this._http.post(this._url_upvoted, data, {headers: headers})
+        headers.append('token', token);
+        return this._http.get(this._url_upvoted, {headers: headers})
             .map((response: Response) => <IPost[]> response.json().posts)
-            // .do(data => console.log('All: ' + JSON.stringify(data)))
+            .do(data => console.log('getUpvotedPosts: ' + JSON.stringify(data)))
             .catch(this.localError);
     }
 

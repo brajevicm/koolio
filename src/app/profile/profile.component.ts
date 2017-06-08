@@ -28,31 +28,29 @@ export class ProfileComponent implements OnInit {
                 private _alertService: AlertService,
                 private  _authService: AuthService) {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (this.currentUser) {
+            this.getUser(localStorage.getItem('currentUser'));
+            this.getPosts(localStorage.getItem('currentUser'));
+            this.getComments(localStorage.getItem('currentUser'));
+            this.getUpvotedPosts(localStorage.getItem('currentUser'));
+        }
     }
 
     ngOnInit() {
-        if (this.currentUser) {
-            this.getUser(localStorage.getItem('currentUser'));
-            // this.getPosts(localStorage.getItem('currentUser'));
-            // this.getComments(localStorage.getItem('currentUser'));
-            // this.getUpvotedPosts(localStorage.getItem('currentUser'));
-        }
-        this.getPosts(1);
-        this.getComments(1);
-        this.getUpvotedPosts(1);
+
     }
 
     ngOnDestroy() {
     }
 
-    getPosts(id: number) {
-        this._postService.getPostsFromUser(id)
+    getPosts(token: string) {
+        this._postService.getPostsFromUser(token)
             .map(res => res)
             .subscribe(res => this.posts = res);
     }
 
-    getUpvotedPosts(id: number) {
-        this._postService.getUpvotedPosts(id)
+    getUpvotedPosts(token: string) {
+        this._postService.getUpvotedPosts(token)
             .subscribe(
                 posts => this.upvotedPosts = posts,
                 error => this._alertService.error(error)
@@ -60,8 +58,8 @@ export class ProfileComponent implements OnInit {
         ;
     }
 
-    getComments(id: number) {
-        this._commentService.getCommentsFromUser(id)
+    getComments(token: string) {
+        this._commentService.getCommentsFromUser(token)
             .subscribe(
                 comments => this.comments = comments,
                 error => this._alertService.error(error)
@@ -71,7 +69,11 @@ export class ProfileComponent implements OnInit {
 
     getUser(token: string) {
         return this._userService.getUser(token)
-            .subscribe(user => this.user = user);
+            .subscribe(
+                user => this.user = user,
+                error => this._alertService.error(error)
+            )
+            ;
     }
 
 }

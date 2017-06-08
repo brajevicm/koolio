@@ -2,7 +2,6 @@ import {Headers, Http, Response} from "@angular/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {IComment} from "../_models/comment";
-import {IPost} from "../_models/post";
 /**
  * Created by brajevicm on 4/06/17.
  */
@@ -28,16 +27,17 @@ export class CommentService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this._url, data, {headers: headers})
             .map((response: Response) => <IComment[]> response.json().comments)
-        // .do(data => console.log('All: ' + JSON.stringify(data)));
+            .do(data => console.log('getPostComments: ' + JSON.stringify(data)));
     }
 
-    getCommentsFromUser(id: number): Observable<IComment[]> {
-        let data = "user_id=" + id;
+    getCommentsFromUser(token: string): Observable<IComment[]> {
+        token = token.replace(/['"]+/g, '');
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this._http.post(this._url_user, data, {headers: headers})
-            .map((response: Response) => <IPost[]> response.json().comments)
-            // .do(data => console.log('All: ' + JSON.stringify(data)))
+        headers.append('token', token);
+        return this._http.get(this._url_user, {headers: headers})
+            .map((response: Response) => <IComment[]> response.json().comments)
+            .do(data => console.log('getCommentsFromUser: ' + JSON.stringify(data)))
             .catch(this.localError);
     }
 
