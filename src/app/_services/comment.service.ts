@@ -8,34 +8,29 @@ import {IComment} from "../_models/comment";
 
 @Injectable()
 export class CommentService {
-    private _url = 'http://127.0.0.1:80/koolio-api/api/comments/get.php';
-    private _url_user = 'http://127.0.0.1:80/koolio-api/api/comments/user.php';
-    private _url_add = 'http://127.0.0.1:80/koolio-api/api/comments/add.php';
-    private _url_upvote = 'http://127.0.0.1:80/koolio-api/api/comments/upvote.php';
+    private _url = 'http://127.0.0.1:80/koolio-api/api/comments/';
+    private _get = 'get.php';
+    private _user = 'user.php';
+    private _add = 'add.php';
+    private _upvote = 'upvote.php';
 
     constructor(private _http: Http) {
     }
 
-    addComment(token: string, id: number, text: string) {
+    addComment(id: number, text: string) {
         let data = "post_id=" + id + "&text=" + text;
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        headers.append('token', token);
-        this._http.post(this._url_upvote, data, {headers: headers})
+        let headers = this.getHeaders();
+        this._http.post(this._url + this._add, data, {headers: headers})
             .map(res => res)
             .subscribe(data => data,
                 err => this.localError(err)
             )
-        ;
     }
 
-    upvoteComment(token: string, id: number): void {
-        token = token.replace(/['"]+/g, '');
+    upvoteComment(id: number): void {
         let data = "comment_id=" + id;
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        headers.append('token', token);
-        this._http.post(this._url_upvote, data, {headers: headers})
+        let headers = this.getHeaders();
+        this._http.post(this._url + this._upvote, data, {headers: headers})
             .map(res => res)
             .subscribe(data => data,
                 err => this.localError(err)
@@ -43,31 +38,39 @@ export class CommentService {
         ;
     }
 
-    getFilteredcomments(): Observable<IComment[]> {
-        return this._http.get(this._url)
+    getFilteredComments(): Observable<IComment[]> {
+        return this._http.get(this._url + this._get)
             .map((response: Response) => <IComment[]> response.json())
-            // .do(data => console.log('All: ' + JSON.stringify(data)))
             .catch(this.localError);
     }
 
     getPostComments(id: number): Observable<IComment[]> {
-        let data = "post_id=" + id;
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this._http.post(this._url, data, {headers: headers})
-            .map((response: Response) => <IComment[]> response.json().comments)
-        // .do(data => console.log('getPostComments: ' + JSON.stringify(data)));
+        if (localStorage.getItem('currentUser')) {
+            let data = "post_id=" + id;
+            let headers = this.getHeaders();
+            return this._http.post(this._url + this._get, data, {headers: headers})
+                .map((response: Response) => <IComment[]> response.json().comments)
+        } else {
+            let data = "post_id=" + id;
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            return this._http.post(this._url + this._get, data, {headers: headers})
+                .map((response: Response) => <IComment[]> response.json().comments)
+        }
     }
 
-    getCommentsFromUser(token: string): Observable<IComment[]> {
-        token = token.replace(/['"]+/g, '');
+    getCommentsFromUser(): Observable<IComment[]> {
+        let headers = this.getHeaders();
+        return this._http.get(this._url + this._user, {headers: headers})
+            .map((response: Response) => <IComment[]> response.json().comments)
+            .catch(this.localError);
+    }
+
+    private getHeaders(): Headers {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        headers.append('token', token);
-        return this._http.get(this._url_user, {headers: headers})
-            .map((response: Response) => <IComment[]> response.json().comments)
-            // .do(data => console.log('getCommentsFromUser: ' + JSON.stringify(data)))
-            .catch(this.localError);
+        headers.append('token', localStorage.getItem('currentUser'));
+        return headers;
     }
 
     private localError(error: Response) {

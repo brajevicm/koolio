@@ -14,6 +14,8 @@ export interface IComment {
     text: string;
     timestamp: string;
     upvotes: number;
+    upvoted: number;
+    isActive: boolean;
 }
 
 export class Comment implements IComment {
@@ -28,6 +30,8 @@ export class Comment implements IComment {
     text: string;
     timestamp: string;
     upvotes: number;
+    upvoted: number;
+    isActive: boolean;
 
     constructor(id: number,
                 user_id: number,
@@ -39,6 +43,8 @@ export class Comment implements IComment {
                 flag: string,
                 text: string,
                 timestamp: string,
-                upvotes: number) {
+                upvotes: number,
+                upvoted: number,
+                isActive: boolean) {
     }
 }

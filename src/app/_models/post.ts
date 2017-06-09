@@ -13,6 +13,8 @@ export interface IPost {
     upvotes: number;
     comments: number;
     upvoted: number;
+    isActivePost: boolean;
+    isActiveComment: boolean;
 }
 
 export class Post implements IPost {
@@ -27,6 +29,8 @@ export class Post implements IPost {
     upvotes: number;
     comments: number;
     upvoted: number;
+    isActivePost: boolean;
+    isActiveComment: boolean;
 
     constructor(id: number,
                 user_id: number,
@@ -38,6 +42,8 @@ export class Post implements IPost {
                 timestamp: string,
                 upvotes: number,
                 comments: number,
-                upvoted: number) {
+                upvoted: number,
+                isActive: boolean,
+                isActiveComment: boolean) {
     }
 }

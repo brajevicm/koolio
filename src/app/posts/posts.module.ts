@@ -7,6 +7,7 @@ import {CommentComponent} from "../comment/comment.component";
 import {PostService} from "../_services/post.service";
 import {FormsModule} from "@angular/forms";
 import {CommentService} from "../_services/comment.service";
+import {PostGuard} from "../_guards/post.guard";
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import {CommentService} from "../_services/comment.service";
     ],
     providers: [
         PostService,
-        CommentService
+        CommentService,
+        PostGuard
     ]
 })
 export class PostsModule {

@@ -28,29 +28,28 @@ export class ProfileComponent implements OnInit {
                 private _alertService: AlertService,
                 private  _authService: AuthService) {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (this.currentUser) {
-            this.getUser(localStorage.getItem('currentUser'));
-            this.getPosts(localStorage.getItem('currentUser'));
-            this.getComments(localStorage.getItem('currentUser'));
-            this.getUpvotedPosts(localStorage.getItem('currentUser'));
-        }
     }
 
     ngOnInit() {
-
+        if (this.currentUser) {
+            this.getUser();
+            this.getPosts();
+            this.getComments();
+            this.getUpvotedPosts();
+        }
     }
 
     ngOnDestroy() {
     }
 
-    getPosts(token: string) {
-        this._postService.getPostsFromUser(token)
+    getPosts() {
+        this._postService.getPostsFromUser()
             .map(res => res)
             .subscribe(res => this.posts = res);
     }
 
-    getUpvotedPosts(token: string) {
-        this._postService.getUpvotedPosts(token)
+    getUpvotedPosts() {
+        this._postService.getUpvotedPosts()
             .subscribe(
                 posts => this.upvotedPosts = posts,
                 error => this._alertService.error(error)
@@ -58,8 +57,8 @@ export class ProfileComponent implements OnInit {
         ;
     }
 
-    getComments(token: string) {
-        this._commentService.getCommentsFromUser(token)
+    getComments() {
+        this._commentService.getCommentsFromUser()
             .subscribe(
                 comments => this.comments = comments,
                 error => this._alertService.error(error)
@@ -67,13 +66,12 @@ export class ProfileComponent implements OnInit {
         ;
     }
 
-    getUser(token: string) {
-        return this._userService.getUser(token)
+    getUser() {
+        return this._userService.getUser()
             .subscribe(
                 user => this.user = user,
                 error => this._alertService.error(error)
-            )
-            ;
+            );
     }
 
 }

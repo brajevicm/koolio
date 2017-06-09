@@ -7,6 +7,7 @@ import {AlertService} from "../../_services/alert.service";
 import {CommentService} from "../../_services/comment.service";
 import {IComment} from "../../_models/comment";
 import {Title} from "@angular/platform-browser";
+import {IUser} from "../../_models/user";
 
 @Component({
     selector: 'page',
@@ -14,6 +15,7 @@ import {Title} from "@angular/platform-browser";
     styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
+    currentUser: IUser;
     post: IPost;
     comments: IComment[];
     upvoted = false;
@@ -25,6 +27,7 @@ export class PostComponent implements OnInit {
                 private _postService: PostService,
                 private _alertService: AlertService,
                 private _title: Title) {
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
 
     ngOnInit() {
@@ -34,7 +37,6 @@ export class PostComponent implements OnInit {
                     let id = +params['id'];
                     this.getPost(id);
                     this.getComments(id);
-                    this.checkIfUpvoted();
                 }
             )
         ;
@@ -68,20 +70,12 @@ export class PostComponent implements OnInit {
 
     private upvotePost(post_id: any) {
         post_id = parseFloat(post_id.toString());
-        this._postService.upvotePost(localStorage.getItem('currentUser'), post_id);
+        this._postService.upvotePost(post_id);
     }
 
     private upvoteComment(comment_id: any) {
         comment_id = parseFloat(comment_id.toString());
-        this._commentService.upvoteComment(localStorage.getItem('currentUser'), comment_id);
-    }
-
-    nextPost() {
-
-    }
-
-    checkIfUpvoted() {
-
+        this._commentService.upvoteComment(comment_id);
     }
 
     public setTitle(newTitle: string) {

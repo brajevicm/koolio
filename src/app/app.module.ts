@@ -19,6 +19,7 @@ import {ProfileComponent} from "./profile/profile.component";
 import {PostGuard} from "./_guards/post.guard";
 import {UploadComponent} from "./upload/upload.component";
 import {Ng2UploaderModule} from "ng2-uploader";
+import {RegisterGuard} from "./_guards/register.guard";
 
 @NgModule({
     declarations: [
@@ -42,6 +43,7 @@ import {Ng2UploaderModule} from "ng2-uploader";
     providers: [
         AuthGuard,
         PostGuard,
+        RegisterGuard,
         AlertService,
         AuthService,
         UserService

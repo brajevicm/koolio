@@ -22,10 +22,14 @@
                         <a>{{post.upvotes}} · upvotes</a>
                         &nbsp;&nbsp;&nbsp;
                         <a>{{post.comments}} · comments</a>
-                        <a *ngIf="upvoted" class="right glyphicon-position">
+                        <a *ngIf="!currentUser" class="right glyphicon-position" (click)="upvotePost(post.id)">
+                            <span class="glyphicon glyphicon-heart glyphicon-custom"></span>
+                        </a>
+                        <a *ngIf="post.upvoted == '1'" class="right glyphicon-position">
                             <span class="glyphicon glyphicon-heart glyphicon-custom upvoted"></span>
                         </a>
-                        <a class="right glyphicon-position" (click)="upvotePost(post.id)">
+                        <a *ngIf="post.upvoted == '0'" class="right glyphicon-position"
+                           (click)="upvotePost(post.id)">
                             <span class="glyphicon glyphicon-heart glyphicon-custom"></span>
                         </a>
                     </p>
@@ -41,6 +45,18 @@
                     </div>
                     <!-- Upvote, Downvote, Comment -->
                     <div class="content-spacing"></div>
+                </div>
+
+                <div class="row">
+                    <div class="widget-area no-padding blank">
+                        <div class="status-upload">
+                            <form>
+                                <textarea placeholder="Make this post even cooler!"></textarea>
+                                <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Share
+                                </button>
+                            </form>
+                        </div><!-- Status Upload  -->
+                    </div><!-- Widget Area -->
                 </div>
 
                 <div *ngIf="comments">
@@ -62,13 +78,19 @@
                                                         {{comment.user}}
                                                     </a>
                                                 </h6>
-                                                <a *ngIf="upvoted" class="right glyphicon-position">
+                                                <a *ngIf="!currentUser" class="right glyphicon-position"
+                                                   (click)="upvoteComment(comment.id)">
+                                                    <span class="glyphicon glyphicon-heart glyphicon-custom"></span>
+                                                </a>
+                                                <a *ngIf="comment.upvoted == '1'" class="right glyphicon-position">
                                                     <span class="glyphicon glyphicon-heart glyphicon-custom upvoted"></span>
                                                 </a>
-                                                <a class="right glyphicon-position" (click)="upvoteComment(comment.id)">
+                                                <a *ngIf="comment.upvoted == '0'" class="right glyphicon-position"
+                                                   (click)="upvoteComment(comment.id)">
                                                     <span class="glyphicon glyphicon-heart glyphicon-custom"></span>
                                                 </a>
                                                 <span class="date">{{comment.timestamp | date}}</span>
+                                                <span class="date">{{comment.upvotes}} · upvotes</span>
                                             </div>
                                             <div class="comment-content">
                                                 {{comment.text}}

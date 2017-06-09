@@ -1,8 +1,9 @@
 import {Component, OnInit} from "@angular/core";
-import {Headers, Http} from "@angular/http";
+import {Http} from "@angular/http";
 import {Router} from "@angular/router";
 import {UserService} from "../_services/user.service";
 import {AlertService} from "../_services/alert.service";
+import {TimerObservable} from "rxjs/observable/TimerObservable";
 
 @Component({
     selector: 'app-register',
@@ -16,7 +17,7 @@ export class RegisterComponent implements OnInit {
     constructor(private _router: Router,
                 private _http: Http,
                 private _userService: UserService,
-                private alertService: AlertService) {
+                private _alertService: AlertService) {
     }
 
     ngOnInit() {
@@ -24,35 +25,27 @@ export class RegisterComponent implements OnInit {
 
     register() {
         this.loading = true;
-        let data =
-            "username=" + this.model.username + "&password=" + this.model.password + "&firstname="
-            + this.model.firstname + "&lastname=" + this.model.lastname + "&image=" + this.model.image;
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        this._http.post('http://127.0.0.1:80/koolio-api/api/users/register.php', data, {headers: headers})
-            .map(res => res)
+        this._userService.registerUser(
+            this.model.username,
+            this.model.password,
+            this.model.firstname,
+            this.model.lastname,
+            this.model.image
+        )
             .subscribe(
                 data => {
-                    this.alertService.success('Registration successful', true);
-                    this._router.navigate(['/hot']);
+                    let timer = TimerObservable.create(1000, 500);
+                    timer.subscribe(t => {
+                        location.reload();
+                        this._router.navigate(['returnUrl']);
+                    });
                 },
                 error => {
-                    this.alertService.error(error);
+                    this._alertService.error(error);
                     this.loading = false;
                 }
-            );
-        // console.log(this.model);
-        // this._userService.create(this.model)
-        //     .subscribe(
-        //         data => {
-        //             this.alertService.success('Registration successful', true);
-        //             this._router.navigate(['/hot']);
-        //         },
-        //         error => {
-        //             this.alertService.error(error);
-        //             this.loading = false;
-        //         }
-        //     );
+            )
+        ;
     }
 
 }

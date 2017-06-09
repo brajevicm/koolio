@@ -3,7 +3,8 @@
         <div class="row" *ngIf="posts">
             <div class="col-md-12">
                 <div class="col-md-7">
-                    <div *ngFor="let post of posts" class="content-spacing fade in">
+                    <div *ngFor="let post of posts" class="content-spacing fade in"
+                         [ngClass]="{'is-active': [post.isActivePost, post.isActiveComment]}">
                         <div>
                             <!-- Title -->
                             <header>
@@ -25,28 +26,60 @@
                             </div>
                             <!-- Points, Comments -->
                             <p>
-                                <a class="mr-10" [routerLink]="['/post', post.id]">{{post.upvotes}} · upvotes</a>
-                                <a [routerLink]="['/post', post.id]">{{post.comments}} · comments</a>
+                                <a *ngIf="post.isActivePost" class="mr-10" [routerLink]="['/post', post.id]">{{post.upvotes
+                                    + 1}} · upvotes</a>
+                                <a *ngIf="!post.isActivePost" class="mr-10" [routerLink]="['/post', post.id]">{{post.upvotes}}
+                                    · upvotes</a>
+                                <a *ngIf="post.isActiveComment" [routerLink]="['/post', post.id]">{{post.comments + 1}}
+                                    ·
+                                    comments</a>
+                                <a *ngIf="!post.isActiveComment" [routerLink]="['/post', post.id]">{{post.comments}}
+                                    ·
+                                    comments</a>
                             </p>
                             <!-- Upvote, Downvote, Comment -->
                             <div>
                                 <div>
                                     <ul>
                                         <li class="mr-10">
-                                            <a *ngIf="post.upvoted == '1'">
-                                                <span class="glyphicon glyphicon-heart glyphicon-custom upvoted"></span>
+                                            <a *ngIf="!currentUser">
+                                                <span class="glyphicon glyphicon-heart glyphicon-custom"></span>
                                             </a>
-                                            <a (click)="upvote(post.id)">
+                                            <a *ngIf="post.upvoted == '0' && !post.isActivePost"
+                                               (click)="post.isActivePost = !post.isActivePost; upvote(post.id)">
                                                 <span class=" glyphicon glyphicon-heart glyphicon-custom"></span>
                                             </a>
+                                            <a *ngIf="post.upvoted == '1' || post.isActivePost">
+                                                <span class="glyphicon glyphicon-heart glyphicon-custom upvoted"></span>
+                                            </a>
+
                                         </li>
                                         <li>
-                                            <a>
+                                            <a *ngIf="!showCommentBox" (click)="toggleComment()">
                                                 <span class="glyphicon glyphicon-comment glyphicon-custom"></span>
+                                            </a>
+                                            <a *ngIf="showCommentBox" (click)="toggleComment()">
+                                                <span class="glyphicon glyphicon-comment glyphicon-custom upvoted"></span>
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
+                            </div>
+
+                            <div class="row" *ngIf="showCommentBox">
+                                <div class="widget-area no-padding blank">
+                                    <div class="status-upload">
+                                        <form>
+                                            <textarea [(ngModel)]="commentText" name="comment"
+                                                      placeholder="Make this post even cooler!"></textarea>
+                                            <button (click)="post.isActiveComment = !post.isActiveComment; addComment(post.id)"
+                                                    type="button"
+                                                    class="btn btn-success green">
+                                                Submit
+                                            </button>
+                                        </form>
+                                    </div><!-- Status Upload  -->
+                                </div><!-- Widget Area -->
                             </div>
                         </div>
                     </div>
@@ -62,233 +95,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!--<div class="col-md-4 col-md-offset-1">-->
-                <!--<h2>Top Commented</h2>-->
-
-                <!--<div class="well-none">-->
-                <!--<div id="myCarousel" class="carousel slide">-->
-
-                <!--&lt;!&ndash; Carousel items &ndash;&gt;-->
-                <!--<div class="carousel-inner">-->
-                <!--<div class="item active">-->
-                <!--<div class="row">-->
-                <!--<div class="col-sm-3 col-xs-6"><a href="#x"><img-->
-                <!--src="http://placehold.it/500x500" alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3 col-xs-6"><a href="#x"><img-->
-                <!--src="http://placehold.it/500x500" alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3 col-xs-6"><a href="#x"><img-->
-                <!--src="http://placehold.it/500x500" alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3 col-xs-6"><a href="#x"><img-->
-                <!--src="http://placehold.it/500x500" alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;/row&ndash;&gt;-->
-                <!--</div>-->
-                <!--&lt;!&ndash;/item&ndash;&gt;-->
-                <!--<div class="item">-->
-                <!--<div class="row">-->
-                <!--<div class="col-sm-3 col-xs-6"><a href="#x col-xs-6" class="thumbnail"><img-->
-                <!--src="http://placehold.it/250x250" alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3 col-xs-6"><a href="#x" class="thumbnail"><img-->
-                <!--src="http://placehold.it/250x250" alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3 col-xs-6"><a href="#x" class="thumbnail"><img-->
-                <!--src="http://placehold.it/250x250" alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3 col-xs-6"><a href="#x" class="thumbnail"><img-->
-                <!--src="http://placehold.it/250x250" alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;/row&ndash;&gt;-->
-                <!--</div>-->
-                <!--&lt;!&ndash;/item&ndash;&gt;-->
-                <!--<div class="item">-->
-                <!--<div class="row">-->
-                <!--<div class="col-sm-3 col-xs-6"><a href="#x" class="thumbnail"><img-->
-                <!--src="http://placehold.it/250x250" alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3 col-xs-6"><a href="#x" class="thumbnail"><img-->
-                <!--src="http://placehold.it/250x250" alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3 col-xs-6"><a href="#x" class="thumbnail"><img-->
-                <!--src="http://placehold.it/250x250" alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3 col-xs-6"><a href="#x" class="thumbnail"><img-->
-                <!--src="http://placehold.it/250x250" alt="Image"-->
-                <!--class="img-responsive"></a>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;/row&ndash;&gt;-->
-                <!--</div>-->
-                <!--&lt;!&ndash;/item&ndash;&gt;-->
-                <!--</div>-->
-                <!--&lt;!&ndash;/carousel-inner&ndash;&gt;-->
-                <!--<a class="left carousel-control" href="#myCarousel" data-slide="prev"><i-->
-                <!--class="fa fa-chevron-left fa-4"></i></a>-->
-
-                <!--<a class="right carousel-control" href="#myCarousel" data-slide="next"><i-->
-                <!--class="fa fa-chevron-right fa-4"></i></a>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;/myCarousel&ndash;&gt;-->
-                <!--</div>-->
-                <!--&lt;!&ndash;/well&ndash;&gt;-->
-                <!--</div>-->
-
-
-                <!--<div class="col-md-5">-->
-                <!--<div class="span12">-->
-                <!--<div class="well">-->
-                <!--<div id="myCarousel" class="carousel slide">-->
-
-                <!--<ol class="carousel-indicators">-->
-                <!--<li data-target="#myCarousel" data-slide-to="0" class="active"></li>-->
-                <!--<li data-target="#myCarousel" data-slide-to="1"></li>-->
-                <!--<li data-target="#myCarousel" data-slide-to="2"></li>-->
-                <!--</ol>-->
-
-                <!--&lt;!&ndash; Carousel items &ndash;&gt;-->
-                <!--<div class="carousel-inner">-->
-
-                <!--<div class="item active">-->
-                <!--<div class="row-fluid">-->
-                <!--<div class="span3">-->
-                <!--<a href="#" class="thumbnail">-->
-                <!--<img class="thumbnail-img"-->
-                <!--src="http://placehold.it/250x250"-->
-                <!--alt="Image"-->
-                <!--/>-->
-                <!--</a>-->
-                <!--</div>-->
-                <!--<div class="span3">-->
-                <!--<a href="#" class="thumbnail">-->
-                <!--<img class="thumbnail-img"-->
-                <!--src="http://placehold.it/250x250"-->
-                <!--alt="Image"-->
-                <!--/>-->
-                <!--</a>-->
-                <!--</div>-->
-                <!--<div class="span3">-->
-                <!--<a href="#" class="thumbnail">-->
-                <!--<img class="thumbnail-img"-->
-                <!--src="http://placehold.it/250x250"-->
-                <!--alt="Image"-->
-                <!--/>-->
-                <!--</a>-->
-                <!--</div>-->
-                <!--</div>&lt;!&ndash;/row-fluid&ndash;&gt;-->
-                <!--</div>&lt;!&ndash;/item&ndash;&gt;-->
-
-                <!--<div class="item">-->
-                <!--<div class="row-fluid">-->
-                <!--<div class="span3">-->
-                <!--<a href="#" class="thumbnail">-->
-                <!--<img class="thumbnail-img"-->
-                <!--src="http://placehold.it/250x250"-->
-                <!--alt="Image"-->
-                <!--/>-->
-                <!--</a>-->
-                <!--</div>-->
-                <!--<div class="">-->
-                <!--<a href="#" class="thumbnail">-->
-                <!--<img class="thumbnail-img"-->
-                <!--src="http://placehold.it/250x250"-->
-                <!--alt="Image"-->
-                <!--/>-->
-                <!--</a>-->
-                <!--</div>-->
-                <!--<div class="">-->
-                <!--<a href="#" class="thumbnail">-->
-                <!--<img class="thumbnail-img"-->
-                <!--src="http://placehold.it/250x250"-->
-                <!--alt="Image"-->
-                <!--/>-->
-                <!--</a>-->
-                <!--</div>-->
-                <!--</div>&lt;!&ndash;/row-fluid&ndash;&gt;-->
-                <!--</div>&lt;!&ndash;/item&ndash;&gt;-->
-
-                <!--<div class="item">-->
-                <!--<div class="row-fluid">-->
-
-                <!--</div>&lt;!&ndash;/row-fluid&ndash;&gt;-->
-                <!--</div>&lt;!&ndash;/item&ndash;&gt;-->
-
-                <!--</div>&lt;!&ndash;/carousel-inner&ndash;&gt;-->
-
-                <!--<a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>-->
-                <!--<a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>-->
-                <!--</div>&lt;!&ndash;/myCarousel&ndash;&gt;-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-
-
-                <!--<div class="col-md-6">-->
-                <!--<h2>Kool, huh?</h2>-->
-                <!--<div>-->
-                <!--<div class="row">-->
-                <!--<div class="comments-container">-->
-                <!--<ul id="comments-list" class="comments-list">-->
-                <!--<li>-->
-                <!--<div class="comment-main-level">-->
-                <!--<div class="comment-avatar">-->
-                <!--<img src="/assets/images/logo.png">-->
-                <!--&lt;!&ndash;[src]='comment.avatar'&ndash;&gt;-->
-                <!--&lt;!&ndash;[title]='comment.user'&ndash;&gt;-->
-                <!--</div>-->
-                <!--<div class="comment-box">-->
-                <!--<div class="comment-head">-->
-                <!--<h6 class="comment-name">-->
-                <!--<a href="#">-->
-                <!--miloss-->
-                <!--&lt;!&ndash;{{comment.user}}&ndash;&gt;-->
-                <!--</a>-->
-                <!--</h6>-->
-                <!--<a *ngIf="upvoted" class="right glyphicon-position">-->
-                <!--<span class="glyphicon glyphicon-heart glyphicon-custom upvoted"></span>-->
-                <!--</a>-->
-                <!--<a class="right glyphicon-position" *ngIf="!upvoted"-->
-                <!--(click)="upvote()">-->
-                <!--<span class="glyphicon glyphicon-heart glyphicon-custom"></span>-->
-                <!--</a>-->
-                <!--<span class="date">-->
-                <!--2017-->
-                <!--&lt;!&ndash;{{comment.timestamp | date}}&ndash;&gt;-->
-                <!--</span>-->
-                <!--</div>-->
-                <!--<div class="comment-content">-->
-                <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit.-->
-                <!--Accusantium adipisci earum, itaque quae qui quia voluptates! Animi-->
-                <!--cum cumque dolorum ducimus, facilis illum libero quam quibusdam-->
-                <!--tempora veritatis voluptatibus, voluptatum!-->
-                <!--&lt;!&ndash;{{comment.text}}&ndash;&gt;-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</li>-->
-                <!--</ul>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-
-
             </div>
         </div>
     </div>

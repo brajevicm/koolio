@@ -1,4 +1,7 @@
 import {Component, OnInit} from "@angular/core";
+import {PostService} from "app/_services/post.service";
+import {AlertService} from "../_services/alert.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'upload',
@@ -12,8 +15,12 @@ export class UploadComponent implements OnInit {
         url: 'http://127.0.0.1:80/koolio-api/api/posts/add.php'
     };
     sizeLimit = 2000000;
+    model: any = {};
+    loading = false;
 
-    constructor() {
+    constructor(private _postService: PostService,
+                private _alertService: AlertService,
+                private _router: Router) {
     }
 
     ngOnInit() {
@@ -35,5 +42,22 @@ export class UploadComponent implements OnInit {
             uploadingFile.setAbort();
             alert('File is too large');
         }
+    }
+
+    addPost() {
+        // this.loading = true;
+        this._postService.addPost(this.model.title)
+        // .subscribe(
+        //     data => {
+        //         let timer = TimerObservable.create(1000, 500);
+        //         timer.subscribe(t => {
+        //             this._router.navigate(['/hot']);
+        //         });
+        //     },
+        //     error => {
+        //         this._alertService.error(error);
+        //         this.loading = false;
+        //     }
+        // );
     }
 }
