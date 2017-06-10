@@ -13,7 +13,10 @@ import {Injectable} from "@angular/core";
 export class PostService {
     private _url = 'http://127.0.0.1:80/koolio-api/api/posts/';
     private _get = 'get.php';
+    private _top = 'top.php';
     private _add = 'add.php';
+    private _remove = 'remove.php';
+    private _report = 'report.php';
     private _user = 'user.php';
     private _upvoted = 'upvoted.php';
     private _upvote = 'upvote.php';
@@ -27,6 +30,7 @@ export class PostService {
             let headers = this.getHeaders();
             this._http.post(this._url + this._add, data, {headers: headers})
                 .map(res => res)
+                .do(data => console.log(data))
                 .subscribe(data => data,
                     err => this.localError(err)
                 )
@@ -65,6 +69,14 @@ export class PostService {
             .catch(this.localError);
     }
 
+    getTopCommentedPosts(): Observable<IPost[]> {
+        let headers = this.getHeaders();
+        return this._http.get(this._url + this._top, {headers: headers})
+            .map((response: Response) => <IPost[]> response.json().posts)
+            // .do(data => console.log('getUpvotedPosts: ' + JSON.stringify(data)))
+            .catch(this.localError);
+    }
+
     getPost(id: number): Observable<IPost> {
         return this.getFilteredPosts()
             .map((posts: IPost[]) => posts.find(post => post.id === id));
@@ -74,6 +86,28 @@ export class PostService {
         let data = "post_id=" + id;
         let headers = this.getHeaders();
         this._http.post(this._url + this._upvote, data, {headers: headers})
+            .map(res => res)
+            .subscribe(data => data,
+                err => this.localError(err)
+            )
+        ;
+    }
+
+    removePost(id: number): void {
+        let data = "post_id=" + id;
+        let headers = this.getHeaders();
+        this._http.post(this._url + this._remove, data, {headers: headers})
+            .map(res => res)
+            .subscribe(data => data,
+                err => this.localError(err)
+            )
+        ;
+    }
+
+    reportPost(id: number): void {
+        let data = "post_id=" + id;
+        let headers = this.getHeaders();
+        this._http.post(this._url + this._report, data, {headers: headers})
             .map(res => res)
             .subscribe(data => data,
                 err => this.localError(err)

@@ -12,6 +12,8 @@ export class CommentService {
     private _get = 'get.php';
     private _user = 'user.php';
     private _add = 'add.php';
+    private _remove = 'remove.php';
+    private _report = 'report.php';
     private _upvote = 'upvote.php';
 
     constructor(private _http: Http) {
@@ -64,6 +66,28 @@ export class CommentService {
         return this._http.get(this._url + this._user, {headers: headers})
             .map((response: Response) => <IComment[]> response.json().comments)
             .catch(this.localError);
+    }
+
+    removeComment(id: number): void {
+        let data = "comment_id=" + id;
+        let headers = this.getHeaders();
+        this._http.post(this._url + this._remove, data, {headers: headers})
+            .map(res => res)
+            .subscribe(data => data,
+                err => this.localError(err)
+            )
+        ;
+    }
+
+    reportComment(id: number): void {
+        let data = "comment_id=" + id;
+        let headers = this.getHeaders();
+        this._http.post(this._url + this._report, data, {headers: headers})
+            .map(res => res)
+            .subscribe(data => data,
+                err => this.localError(err)
+            )
+        ;
     }
 
     private getHeaders(): Headers {

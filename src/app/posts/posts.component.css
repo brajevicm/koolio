@@ -40,6 +40,12 @@ img {
     color: #c22025;
 }
 
+.glyphicon-not-logged {
+    font-size: 25px;
+    color: white;
+    text-shadow: -1px 0 #c22025, 0 1px #c22025, 1px 0 #c22025, 0 -1px #c22025;
+}
+
 .mr-10 {
     margin-right: 10px;
 }

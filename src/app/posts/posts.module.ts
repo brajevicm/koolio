@@ -17,14 +17,12 @@ import {PostGuard} from "../_guards/post.guard";
     ],
     declarations: [
         PostsComponent,
-        PostComponent,
-        CommentComponent
+        PostComponent
     ],
     exports: [
         PostsComponent,
         PostComponent,
-        CommentComponent,
-        PostsRoutingModule,
+        PostsRoutingModule
         // AppRoutingModule
     ],
     providers: [

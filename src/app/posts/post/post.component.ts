@@ -19,6 +19,7 @@ export class PostComponent implements OnInit {
     post: IPost;
     comments: IComment[];
     upvoted = false;
+    commentText: string;
     private sub: Subscription;
 
     constructor(private _route: ActivatedRoute,
@@ -46,12 +47,6 @@ export class PostComponent implements OnInit {
         this.sub.unsubscribe();
     }
 
-    ngOnChanges() {
-        // if (this.post) {
-        //     this.setTitle("Koolio | " + this.post.title);
-        // }
-    }
-
     getPost(id: number) {
         this._postService.getPost(id)
             .subscribe(
@@ -68,12 +63,17 @@ export class PostComponent implements OnInit {
             );
     }
 
-    private upvotePost(post_id: any) {
+    addComment(post_id: number) {
+        post_id = parseFloat(post_id.toString());
+        this._commentService.addComment(post_id, this.commentText);
+    }
+
+    upvotePost(post_id: any) {
         post_id = parseFloat(post_id.toString());
         this._postService.upvotePost(post_id);
     }
 
-    private upvoteComment(comment_id: any) {
+    upvoteComment(comment_id: any) {
         comment_id = parseFloat(comment_id.toString());
         this._commentService.upvoteComment(comment_id);
     }
