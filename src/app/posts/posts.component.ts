@@ -19,8 +19,7 @@ export class PostsComponent implements OnInit {
     user: IUser;
     loading = false;
     commentText: string;
-    throttle = 300;
-    scrollDistance = 2;
+    offset = 0;
 
     constructor(private _postService: PostService,
                 private _userService: UserService,
@@ -33,31 +32,28 @@ export class PostsComponent implements OnInit {
 
     ngOnInit() {
         this.loadAllTopCommentedPosts();
-        if (this._router.url == '/hot') {
-            this.initUser();
-            this.loadHotPosts();
-        } else if (this._router.url == '/trending') {
-            this.initUser();
-            this.loadTrendingPosts();
-        } else if (this._router.url == '/fresh') {
-            this.initUser();
-            this.loadFreshPosts();
-        }
+        // if (this._router.url == '/hot') {
+        this.initUser();
+        this.initHotPosts();
+        // }
+        // } else if (this._router.url == '/trending') {
+        //     this.initUser();
+        //     this.loadTrendingPosts();
+        // } else if (this._router.url == '/fresh') {
+        //     this.initUser();
+        //     this.loadFreshPosts();
+        // }
     }
-
-    // addItems(startIndex: number, endIndex: number) {
-    //     for (let i = 0; i < this.sum; ++i) {
-    //         this.posts.push([i, ' ', this.generateWord()].join(''));
-    //     }
-    // }
 
     onScrollDown() {
-        console.log('scrolled!!');
-
-        // const start = this.sum;
-        // this.sum += 20;
-        // this.addItems(start, this.sum);
+        this.offset += 4;
+        this.loadHotPosts(this.offset);
     }
+
+    // onScrollUp() {
+    //     this.offset -= 2;
+    //     this.loadHotPosts(this.offset);
+    // }
 
     private initUser() {
         if (this.currentUser) {
@@ -73,13 +69,41 @@ export class PostsComponent implements OnInit {
             );
     }
 
-    private loadHotPosts() {
-        this._postService.getHotPosts()
+    private initHotPosts() {
+        this._postService.getHotPosts(this.offset)
             .subscribe(posts => {
                 this.posts = posts;
             })
         ;
     }
+
+    private loadHotPosts(offset: number) {
+        this._postService.getHotPosts(offset)
+            .subscribe(posts => {
+                posts.map(p => {
+                    return {
+                        id: p.id,
+                        user_id: p.user_id,
+                        user: p.user,
+                        flag_id: p.flag_id,
+                        title: p.title,
+                        image: p.image,
+                        timestamp: p.timestamp,
+                        upvotes: p.upvotes,
+                        comments: p.comments,
+                        upvoted: p.upvoted,
+                        isActivePost: p.isActivePost,
+                        isActiveComment: p.isActiveComment,
+                        isActiveCommentBox: p.isActiveCommentBox,
+                        isActiveReport: p.isActiveReport,
+                        isActiveRemove: p.isActiveRemove,
+                        reports: p.reports,
+                        reported: p.reported
+                    }
+                }).forEach(item => this.posts.push(item));
+            });
+    }
+
 
     private loadTrendingPosts() {
         this._postService.getTrendingPosts()

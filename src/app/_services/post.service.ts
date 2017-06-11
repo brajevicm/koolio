@@ -45,15 +45,19 @@ export class PostService {
      * TODO
      * @returns {Observable<R|T>}
      */
-    getHotPosts(): Observable<IPost[]> {
+    getHotPosts(offset: number): Observable<IPost[]> {
         if (localStorage.getItem('currentUser')) {
+            let data = "offset=" + offset;
             let headers = this.getHeaders();
-            return this._http.get(this._url + this._get, {headers: headers})
+            return this._http.post(this._url + this._get, data, {headers: headers})
                 .map((response: Response) => <IPost[]> response.json().posts)
                 // .do(data => console.log('All: ' + JSON.stringify(data)))
                 .catch(this.localError);
         } else {
-            return this._http.get(this._url + this._get)
+            let data = "offset=" + offset;
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            return this._http.post(this._url + this._get, data, {headers: headers})
                 .map((response: Response) => <IPost[]> response.json().posts)
                 // .do(data => console.log('All: ' + JSON.stringify(data)))
                 .catch(this.localError);
@@ -123,7 +127,7 @@ export class PostService {
     }
 
     getPost(id: number): Observable<IPost> {
-        return this.getHotPosts()
+        return this.getFreshPosts()
             .map((posts: IPost[]) => posts.find(post => post.id === id));
     }
 

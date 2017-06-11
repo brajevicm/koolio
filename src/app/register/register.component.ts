@@ -1,9 +1,9 @@
 import {Component, EventEmitter, OnInit} from "@angular/core";
 import {Http} from "@angular/http";
 import {Router} from "@angular/router";
-import {UserService} from "../_services/user.service";
 import {AlertService} from "../_services/alert.service";
 import {humanizeBytes, UploadFile, UploadInput, UploadOutput} from "ngx-uploader";
+import {AuthService} from "../_services/auth.service";
 
 @Component({
     selector: 'register',
@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
 
     constructor(private _router: Router,
                 private _http: Http,
-                private _userService: UserService,
+                private _authService: AuthService,
                 private _alertService: AlertService) {
         this.files = []; // local uploading files array
         this.uploadInput = new EventEmitter<UploadInput>(); // input events, we use this to emit data to ngx-uploader
@@ -82,6 +82,11 @@ export class RegisterComponent implements OnInit {
 
     cancelUpload(id: string): void {
         this.uploadInput.emit({type: 'cancel', id: id});
+    }
+
+    login() {
+        this._authService.login(this.model.username, this.model.password);
+        this._router.navigate(['/hot']);
     }
 
     register() {
