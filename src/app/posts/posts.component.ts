@@ -5,7 +5,6 @@ import {IUser} from "../_models/user";
 import {CommentService} from "../_services/comment.service";
 import {AlertService} from "../_services/alert.service";
 import {UserService} from "../_services/user.service";
-import {Subscription} from "rxjs/Subscription";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
@@ -20,7 +19,8 @@ export class PostsComponent implements OnInit {
     user: IUser;
     loading = false;
     commentText: string;
-    sub: Subscription;
+    throttle = 300;
+    scrollDistance = 2;
 
     constructor(private _postService: PostService,
                 private _userService: UserService,
@@ -43,6 +43,20 @@ export class PostsComponent implements OnInit {
             this.initUser();
             this.loadFreshPosts();
         }
+    }
+
+    // addItems(startIndex: number, endIndex: number) {
+    //     for (let i = 0; i < this.sum; ++i) {
+    //         this.posts.push([i, ' ', this.generateWord()].join(''));
+    //     }
+    // }
+
+    onScrollDown() {
+        console.log('scrolled!!');
+
+        // const start = this.sum;
+        // this.sum += 20;
+        // this.addItems(start, this.sum);
     }
 
     private initUser() {

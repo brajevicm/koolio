@@ -100,7 +100,7 @@
                     <div class="row">
                         <div class="comments-container">
                             <ul id="comments-list" class="comments-list" *ngFor="let comment of comments"
-                                [ngClass]="{'is-active': comment.isActive}">
+                                [ngClass]="{'is-active': [comment.isActive, comment.isActiveReport, comment.isActiveRemove]}">
                                 <li>
                                     <div class="comment-main-level">
                                         <div class="comment-avatar">
@@ -113,47 +113,56 @@
                                                         {{comment.user}}
                                                     </a>
                                                 </h6>
-                                                <a *ngIf="!currentUser" class="right glyphicon-position"
-                                                   title="You have to be logged it to be able to upvote.">
-                                                    <span class="glyphicon glyphicon-heart glyphicon-not-logged"></span>
-                                                </a>
-                                                <a *ngIf="comment.upvoted == '1' || comment.isActive"
-                                                   class="right glyphicon-position"
-                                                   title="You have already upvoted this comment.">
-                                                    <span class="glyphicon glyphicon-heart glyphicon-custom upvoted"></span>
-                                                </a>
-                                                <a *ngIf="comment.upvoted == '0' && !comment.isActive"
-                                                   class="right glyphicon-position"
-                                                   title="Click here to upvote this comment."
-                                                   (click)="comment.isActive = !comment.isActive; upvoteComment(comment.id)">
-                                                    <span class="glyphicon glyphicon-heart glyphicon-custom"></span>
-                                                </a>
-                                                <a *ngIf="currentUser && !comment.isActiveRemove && user.role == 'admin'"
-                                                   class="right glyphicon-position mr-10"
-                                                   (click)="comment.isActiveRemove = !comment.isActiveRemove; removeComment(comment.id)"
-                                                   title="Click here to remove this post.">
-                                                    <span class=" glyphicon glyphicon-remove glyphicon-custom"></span>
-                                                </a>
-                                                <a *ngIf="currentUser && comment.isActiveRemove && user.role == 'admin'"
-                                                   class="right glyphicon-position mr-10"
-                                                   title="You have already removed this post.">
-                                                    <span class="glyphicon glyphicon-remove glyphicon-custom upvoted"></span>
-                                                </a>
-                                                <a *ngIf="currentUser && comment.reported == '0' && !comment.isActiveReport && user.role == 'user'"
-                                                   class="right glyphicon-position mr-10"
-                                                   (click)="comment.isActiveReport = !comment.isActiveReport; reportComment(comment.id)"
-                                                   title="Click here to report this post.">
-                                                    <span class=" glyphicon glyphicon-exclamation-sign glyphicon-custom"></span>
-                                                </a>
-                                                <a *ngIf="currentUser && (comment.isActiveReport || comment.reported == '1') && user.role == 'user'"
-                                                   class="right glyphicon-position mr-10"
-                                                   title="You have already reported this post.">
-                                                    <span class="glyphicon glyphicon-exclamation-sign glyphicon-custom upvoted"></span>
-                                                    <span class="date">{{comment.timestamp | date}}</span></a>
+                                                <div>
+                                                    <a *ngIf="!currentUser" class="right glyphicon-position"
+                                                       title="You have to be logged it to be able to upvote.">
+                                                        <span class="glyphicon glyphicon-heart glyphicon-not-logged"></span>
+                                                    </a>
+                                                    <a *ngIf="comment.upvoted == '1' || comment.isActive"
+                                                       class="right glyphicon-position"
+                                                       title="You have already upvoted this comment.">
+                                                        <span class="glyphicon glyphicon-heart glyphicon-custom upvoted"></span>
+                                                    </a>
+                                                    <a *ngIf="comment.upvoted == '0' && !comment.isActive"
+                                                       class="right glyphicon-position"
+                                                       title="Click here to upvote this comment."
+                                                       (click)="comment.isActive = !comment.isActive; upvoteComment(comment.id)">
+                                                        <span class="glyphicon glyphicon-heart glyphicon-custom"></span>
+                                                    </a>
+                                                </div>
+
+                                                <div *ngIf="currentUser">
+                                                    <a *ngIf="!comment.isActiveRemove && user.role == 'admin'"
+                                                       class="right glyphicon-position mr-10"
+                                                       (click)="comment.isActiveRemove = !comment.isActiveRemove; removeComment(comment.id)"
+                                                       title="Click here to remove this post.">
+                                                        <span class=" glyphicon glyphicon-remove glyphicon-custom"></span>
+                                                    </a>
+                                                    <a *ngIf="comment.isActiveRemove && user.role == 'admin'"
+                                                       class="right glyphicon-position mr-10"
+                                                       title="You have already removed this post.">
+                                                        <span class="glyphicon glyphicon-remove glyphicon-custom upvoted"></span>
+                                                    </a>
+                                                </div>
+
+                                                <div *ngIf="currentUser">
+                                                    <a *ngIf="comment.reported == '0' && !comment.isActiveReport && user.role == 'user'"
+                                                       class="right glyphicon-position mr-10"
+                                                       (click)="comment.isActiveReport = !comment.isActiveReport; reportComment(comment.id)"
+                                                       title="Click here to report this post.">
+                                                        <span class=" glyphicon glyphicon-exclamation-sign glyphicon-custom"></span>
+                                                    </a>
+                                                    <a *ngIf="(comment.isActiveReport || comment.reported == '1') && user.role == 'user'"
+                                                       class="right glyphicon-position mr-10"
+                                                       title="You have already reported this post.">
+                                                        <span class="glyphicon glyphicon-exclamation-sign glyphicon-custom upvoted"></span>
+                                                    </a>
+                                                </div>
                                                 <span *ngIf="currentUser && user.role == 'admin' && comment.reports > 1"
                                                       class="date">{{comment.reports}}
                                                     ·
                                                     reports</span>
+                                                <span class="date">{{comment.timestamp | date}}</span>
                                                 <span *ngIf="comment.isActive" class="date">{{comment.upvotes + 1}} · upvotes</span>
                                                 <span *ngIf="!comment.isActive" class="date">{{comment.upvotes}} · upvotes</span>
                                             </div>
