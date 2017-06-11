@@ -19,6 +19,7 @@ export interface IComment {
     isActiveReport: boolean;
     isActiveRemove: boolean;
     reports: number;
+    reported: number;
 }
 
 export class Comment implements IComment {
@@ -38,6 +39,7 @@ export class Comment implements IComment {
     isActiveReport: boolean;
     isActiveRemove: boolean;
     reports: number;
+    reported: number;
 
     constructor(id: number,
                 user_id: number,
@@ -54,6 +56,7 @@ export class Comment implements IComment {
                 isActive: boolean,
                 isActiveReport: boolean,
                 isActiveRemove: boolean,
-                reports: number) {
+                reports: number,
+                reported: number) {
     }
 }

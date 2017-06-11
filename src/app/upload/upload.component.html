@@ -1,23 +1,39 @@
-<h1 class="btn-primary">File Upload</h1>
+<div class="col-xs-12 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <h2>Upload</h2>
+    <form name="form" (ngSubmit)="f.form.valid && addPost()" #f="ngForm" novalidate>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !title.valid }">
+            <label>Title</label>
+            <input type="text" class="form-control" name="title" [(ngModel)]="model.title" #title="ngModel"
+                   required/>
+            <div *ngIf="f.submitted && !title.valid" class="help-block">Title is required</div>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !files }">
+            <div class="input-group">
+                <label>User Image</label>
+                <input name="files" type="file" class="form-control"
+                       accept="image/png, image/jpeg, image/gif"
+                       ngFileSelect
+                       (uploadOutput)="onUploadOutput($event)"
+                       [uploadInput]="uploadInput"
+                       [(ngModel)]="files"
+                       #image="ngModel"
+                />
+                <div *ngIf="f.submitted && !files" class="help-block">Image is required</div>
 
-<form name="form">
-    <div class="form-group">
-        <label>Title</label>
-        <input type="text" class="form-control" name="title" [(ngModel)]="model.title"/>
-    </div>
-
-    <div class="drop-container" ngFileDrop (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput"
-         [ngClass]="{ 'is-drop-over': dragOver }">
-        <h1>Drag & Drop</h1>
-    </div>
-
-    <label class="upload-button">
-        <input type="file" ngFileSelect (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
-        or choose file(s)
-    </label>
-
-    <button type="button" class="start-upload-btn" (click)="addPost()">
-        Start Upload
-    </button>
-
-</form>
+                <div class="col-xs-12 col-md-6" *ngIf="files && files.length">
+                    <div class="upload-file" *ngFor="let f of files; let i = index;">
+                        <div class="progress-bar-container">
+                            <div class="bar" [style.width]="f.progress.data.percentage + '%'"
+                                 [ngClass]="{ 'green': f.progress.data.percentage === 100 }"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div></div>
+        <div class="form-group">
+            <button [disabled]="loading" class="btn btn-default">Submit</button>
+            <button type="button" *ngIf="loading" [routerLink]="['/hot']" class="btn btn-success">Finish</button>
+        </div>
+    </form>
+</div>

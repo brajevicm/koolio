@@ -5,6 +5,8 @@ import {IUser} from "../_models/user";
 import {CommentService} from "../_services/comment.service";
 import {AlertService} from "../_services/alert.service";
 import {UserService} from "../_services/user.service";
+import {Subscription} from "rxjs/Subscription";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     selector: 'pages',
@@ -16,25 +18,38 @@ export class PostsComponent implements OnInit {
     topCommented: IPost[];
     currentUser: IUser;
     user: IUser;
-    showCommentBox: boolean = false;
     loading = false;
     commentText: string;
+    sub: Subscription;
 
     constructor(private _postService: PostService,
                 private _userService: UserService,
                 private _commentService: CommentService,
-                private _alertService: AlertService) {
+                private _alertService: AlertService,
+                private _route: ActivatedRoute,
+                private _router: Router) {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
 
     ngOnInit() {
+        this.loadAllTopCommentedPosts();
+        if (this._router.url == '/hot') {
+            this.initUser();
+            this.loadHotPosts();
+        } else if (this._router.url == '/trending') {
+            this.initUser();
+            this.loadTrendingPosts();
+        } else if (this._router.url == '/fresh') {
+            this.initUser();
+            this.loadFreshPosts();
+        }
+    }
+
+    private initUser() {
         if (this.currentUser) {
             this.getUser();
         }
-        this.loadAllPosts();
-        this.loadAllTopCommentedPosts();
     }
-
 
     private getUser() {
         return this._userService.getUser()
@@ -44,8 +59,24 @@ export class PostsComponent implements OnInit {
             );
     }
 
-    private loadAllPosts() {
-        this._postService.getFilteredPosts()
+    private loadHotPosts() {
+        this._postService.getHotPosts()
+            .subscribe(posts => {
+                this.posts = posts;
+            })
+        ;
+    }
+
+    private loadTrendingPosts() {
+        this._postService.getTrendingPosts()
+            .subscribe(posts => {
+                this.posts = posts;
+            })
+        ;
+    }
+
+    private loadFreshPosts() {
+        this._postService.getFreshPosts()
             .subscribe(posts => {
                 this.posts = posts;
             })
@@ -60,14 +91,13 @@ export class PostsComponent implements OnInit {
         ;
     }
 
-    toggleComment() {
-        this.showCommentBox = !this.showCommentBox;
+    clearText() {
+        this.commentText = null;
     }
 
     addComment(post_id: number) {
         post_id = parseFloat(post_id.toString());
         this._commentService.addComment(post_id, this.commentText);
-        this.toggleComment();
     }
 
     upvotePost(post_id: any) {

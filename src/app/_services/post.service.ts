@@ -13,6 +13,9 @@ import {Injectable} from "@angular/core";
 export class PostService {
     private _url = 'http://127.0.0.1:80/koolio-api/api/posts/';
     private _get = 'get.php';
+    private _hot = 'hot.php';
+    private _trending = 'trending.php';
+    private _fresh = 'fresh.php';
     private _top = 'top.php';
     private _add = 'add.php';
     private _remove = 'remove.php';
@@ -38,7 +41,49 @@ export class PostService {
         }
     }
 
-    getFilteredPosts(): Observable<IPost[]> {
+    /**
+     * TODO
+     * @returns {Observable<R|T>}
+     */
+    getHotPosts(): Observable<IPost[]> {
+        if (localStorage.getItem('currentUser')) {
+            let headers = this.getHeaders();
+            return this._http.get(this._url + this._get, {headers: headers})
+                .map((response: Response) => <IPost[]> response.json().posts)
+                // .do(data => console.log('All: ' + JSON.stringify(data)))
+                .catch(this.localError);
+        } else {
+            return this._http.get(this._url + this._get)
+                .map((response: Response) => <IPost[]> response.json().posts)
+                // .do(data => console.log('All: ' + JSON.stringify(data)))
+                .catch(this.localError);
+        }
+    }
+
+    /**
+     * TODO
+     * @returns {Observable<R|T>}
+     */
+    getTrendingPosts(): Observable<IPost[]> {
+        if (localStorage.getItem('currentUser')) {
+            let headers = this.getHeaders();
+            return this._http.get(this._url + this._get, {headers: headers})
+                .map((response: Response) => <IPost[]> response.json().posts)
+                // .do(data => console.log('All: ' + JSON.stringify(data)))
+                .catch(this.localError);
+        } else {
+            return this._http.get(this._url + this._get)
+                .map((response: Response) => <IPost[]> response.json().posts)
+                // .do(data => console.log('All: ' + JSON.stringify(data)))
+                .catch(this.localError);
+        }
+    }
+
+    /**
+     * TODO
+     * @returns {Observable<R|T>}
+     */
+    getFreshPosts(): Observable<IPost[]> {
         if (localStorage.getItem('currentUser')) {
             let headers = this.getHeaders();
             return this._http.get(this._url + this._get, {headers: headers})
@@ -78,7 +123,7 @@ export class PostService {
     }
 
     getPost(id: number): Observable<IPost> {
-        return this.getFilteredPosts()
+        return this.getHotPosts()
             .map((posts: IPost[]) => posts.find(post => post.id === id));
     }
 

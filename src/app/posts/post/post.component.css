@@ -21,6 +21,10 @@ li {
     width: 100%;
 }
 
+.mr-10 {
+    margin-right: 10px;
+}
+
 .img-responsive {
     display: inline-block;
 }

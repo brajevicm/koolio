@@ -1,10 +1,11 @@
+<script src="posts.component.ts"></script>
 <div class="container">
     <div class="container-fluid">
         <div class="row" *ngIf="posts">
             <div class="col-md-12">
                 <div class="col-md-7">
                     <div *ngFor="let post of posts" class="content-spacing fade in"
-                         [ngClass]="{'is-active': [post.isActivePost, post.isActiveComment]}">
+                         [ngClass]="{'is-active': [post.isActivePost, post.isActiveComment, post.isActiveReport, post.isActiveRemove]}">
                         <div>
                             <!-- Title -->
                             <header>
@@ -37,7 +38,7 @@
                                 <a *ngIf="!post.isActiveComment" [routerLink]="['/post', post.id]" class="mr-10">{{post.comments}}
                                     ·
                                     comments</a>
-                                <a *ngIf="user.role == 'admin'">{{post.reports}}
+                                <a *ngIf="currentUser && user.role == 'admin' && post.reports > 1">{{post.reports}}
                                     ·
                                     reports</a>
                             </p>
@@ -51,7 +52,7 @@
                                                 <span class="glyphicon glyphicon-heart glyphicon-not-logged"></span>
                                             </a>
                                             <a *ngIf="post.upvoted == '0' && !post.isActivePost"
-                                               (click)="post.isActivePost = !post.isActivePost; upvote(post.id)"
+                                               (click)="post.isActivePost = !post.isActivePost; upvotePost(post.id)"
                                                title="Click here to upvote this post.">
                                                 <span class=" glyphicon glyphicon-heart glyphicon-custom"></span>
                                             </a>
@@ -61,37 +62,56 @@
                                             </a>
                                         </li>
                                         <li class="mr-10">
-                                            <a *ngIf="!showCommentBox" (click)="toggleComment()"
+                                            <a *ngIf="currentUser && !post.isActiveCommentBox"
+                                               (click)="post.isActiveCommentBox = !post.isActiveCommentBox"
                                                title="Click here to comment on this post.">
                                                 <span class="glyphicon glyphicon-comment glyphicon-custom"></span>
                                             </a>
-                                            <a *ngIf="showCommentBox" (click)="toggleComment()"
+                                            <a *ngIf="currentUser && post.isActiveCommentBox"
+                                               (click)="post.isActiveCommentBox = !post.isActiveCommentBox"
                                                title="Click here to close the comment window.">
                                                 <span class="glyphicon glyphicon-comment glyphicon-custom upvoted"></span>
                                             </a>
+                                            <a *ngIf="!currentUser"
+                                               (click)="post.isActiveCommentBox = !post.isActiveCommentBox"
+                                               title="You have to be logged it to be able to comment.">
+                                                <span class="glyphicon glyphicon-comment glyphicon-not-logged"></span>
+                                            </a>
                                         </li>
-                                        <li *ngIf="user.role_id == '2'">
-                                            <a *ngIf="post.upvoted == '0' && !post.isActivePost"
-                                               (click)="post.isActivePost = !post.isActivePost; upvote(post.id)"
-                                               title="Click here to upvote this post.">
+                                        <li *ngIf="currentUser">
+                                            <a *ngIf="!post.isActiveRemove && user.role == 'admin'"
+                                               (click)="post.isActiveRemove = !post.isActiveRemove; removePost(post.id)"
+                                               title="Click here to remove this post.">
                                                 <span class=" glyphicon glyphicon-remove glyphicon-custom"></span>
                                             </a>
-                                            <a *ngIf="post.upvoted == '1' || post.isActivePost"
-                                               title="You have already upvoted this post.">
+                                            <a *ngIf="post.isActiveRemove && user.role == 'admin'"
+                                               title="You have already removed this post.">
                                                 <span class="glyphicon glyphicon-remove glyphicon-custom upvoted"></span>
+                                            </a>
+                                        </li>
+                                        <li *ngIf="currentUser">
+                                            <a *ngIf="post.reported == '0' && !post.isActiveReport && user.role == 'user'"
+                                               (click)="post.isActiveReport = !post.isActiveReport; reportPost(post.id)"
+                                               title="Click here to report this post.">
+                                                <span class=" glyphicon glyphicon-exclamation-sign glyphicon-custom"></span>
+                                            </a>
+                                            <a *ngIf="(post.isActiveReport || post.reported == '1') && user.role == 'user'"
+                                               title="You have already reported this post.">
+                                                <span class="glyphicon glyphicon-exclamation-sign glyphicon-custom upvoted"></span>
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
 
-                            <div class="row" *ngIf="showCommentBox">
+                            <div class="row" *ngIf="post.isActiveCommentBox">
                                 <div class="widget-area no-padding blank">
                                     <div class="status-upload">
                                         <form>
                                             <textarea [(ngModel)]="commentText" name="comment"
                                                       placeholder="Make this post even cooler!"></textarea>
-                                            <button (click)="post.isActiveComment = !post.isActiveComment; addComment(post.id)"
+                                            <button (click)="post.isActiveComment = !post.isActiveComment;
+                                             post.isActiveCommentBox = !post.isActiveCommentBox; addComment(post.id); clearText()"
                                                     type="button" title="Click here to comment on this post."
                                                     class="btn btn-success green">
                                                 Submit

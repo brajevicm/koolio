@@ -15,9 +15,11 @@ export interface IPost {
     upvoted: number;
     isActivePost: boolean;
     isActiveComment: boolean;
+    isActiveCommentBox: boolean;
     isActiveReport: boolean;
     isActiveRemove: boolean;
     reports: number;
+    reported: number;
 }
 
 export class Post implements IPost {
@@ -33,10 +35,12 @@ export class Post implements IPost {
     comments: number;
     upvoted: number;
     isActivePost: boolean;
-    isActiveComment: boolean;
+    isActiveComment: boolean
+    isActiveCommentBox: boolean;
     isActiveReport: boolean;
     isActiveRemove: boolean;
     reports: number;
+    reported: number;
 
     constructor(id: number,
                 user_id: number,
@@ -51,8 +55,10 @@ export class Post implements IPost {
                 upvoted: number,
                 isActive: boolean,
                 isActiveComment: boolean,
+                isActiveCommentBox: boolean,
                 isActiveReport: boolean,
                 isActiveRemove: boolean,
-                reports: number) {
+                reports: number,
+                reported: number) {
     }
 }

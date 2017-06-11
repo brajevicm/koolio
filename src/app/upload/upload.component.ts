@@ -72,6 +72,7 @@ export class UploadComponent implements OnInit {
         };
 
         this.uploadInput.emit(event);
+        this.loading = true;
     }
 
     cancelUpload(id: string): void {
@@ -80,19 +81,5 @@ export class UploadComponent implements OnInit {
 
     addPost() {
         this.startUpload();
-        // this.loading = true;
-        this._postService.addPost(this.model.title)
-        // .subscribe(
-        //     data => {
-        //         let timer = TimerObservable.create(1000, 500);
-        //         timer.subscribe(t => {
-        //             this._router.navigate(['/hot']);
-        //         });
-        //     },
-        //     error => {
-        //         this._alertService.error(error);
-        //         this.loading = false;
-        //     }
-        // );
     }
 }

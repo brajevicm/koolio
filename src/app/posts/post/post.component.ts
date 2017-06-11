@@ -8,6 +8,7 @@ import {CommentService} from "../../_services/comment.service";
 import {IComment} from "../../_models/comment";
 import {Title} from "@angular/platform-browser";
 import {IUser} from "../../_models/user";
+import {UserService} from "../../_services/user.service";
 
 @Component({
     selector: 'page',
@@ -16,13 +17,16 @@ import {IUser} from "../../_models/user";
 })
 export class PostComponent implements OnInit {
     currentUser: IUser;
+    user: IUser;
     post: IPost;
     comments: IComment[];
     upvoted = false;
     commentText: string;
+    loading: boolean = false;
     private sub: Subscription;
 
     constructor(private _route: ActivatedRoute,
+                private _userService: UserService,
                 private _router: Router,
                 private _commentService: CommentService,
                 private _postService: PostService,
@@ -35,6 +39,9 @@ export class PostComponent implements OnInit {
         this.sub = this._route.params
             .subscribe(
                 params => {
+                    if (this.currentUser) {
+                        this.getUser();
+                    }
                     let id = +params['id'];
                     this.getPost(id);
                     this.getComments(id);
@@ -45,6 +52,18 @@ export class PostComponent implements OnInit {
 
     ngOnDestroy() {
         this.sub.unsubscribe();
+    }
+
+    clearText() {
+        this.commentText = null;
+    }
+
+    private getUser() {
+        return this._userService.getUser()
+            .subscribe(
+                user => this.user = user,
+                error => this._alertService.error(error)
+            );
     }
 
     getPost(id: number) {
@@ -66,6 +85,7 @@ export class PostComponent implements OnInit {
     addComment(post_id: number) {
         post_id = parseFloat(post_id.toString());
         this._commentService.addComment(post_id, this.commentText);
+        this.loading = true;
     }
 
     upvotePost(post_id: any) {
@@ -76,6 +96,26 @@ export class PostComponent implements OnInit {
     upvoteComment(comment_id: any) {
         comment_id = parseFloat(comment_id.toString());
         this._commentService.upvoteComment(comment_id);
+    }
+
+    removePost(post_id: number) {
+        post_id = parseFloat(post_id.toString());
+        this._postService.removePost(post_id);
+    }
+
+    reportPost(post_id: number) {
+        post_id = parseFloat(post_id.toString());
+        this._postService.reportPost(post_id);
+    }
+
+    removeComment(comment_id: number) {
+        comment_id = parseFloat(comment_id.toString());
+        this._commentService.removeComment(comment_id);
+    }
+
+    reportComment(comment_id: number) {
+        comment_id = parseFloat(comment_id.toString());
+        this._commentService.reportComment(comment_id);
     }
 
     public setTitle(newTitle: string) {
