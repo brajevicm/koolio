@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
     }
 
     onUploadOutput(output: UploadOutput): void {
-        console.log(output); // lets output to see what's going on in the console
+        // console.log(output); // lets output to see what's going on in the console
 
         if (output.type === 'allAddedToQueue') { // when all files added in queue
             // uncomment this if you want to auto upload files when added

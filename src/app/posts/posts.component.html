@@ -1,6 +1,6 @@
 <script src="posts.component.ts"></script>
 <div class="container">
-    <div class="container-fluid">
+    <div class="container-fluid" *ngIf="(currentUser && user) || !currentUser">
         <div class="row">
             <div class="col-md-12">
                 <div class="col-md-7">

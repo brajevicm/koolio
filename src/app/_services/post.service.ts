@@ -127,8 +127,20 @@ export class PostService {
     }
 
     getPost(id: number): Observable<IPost> {
-        return this.getFreshPosts()
-            .map((posts: IPost[]) => posts.find(post => post.id === id));
+        if (localStorage.getItem('currentUser')) {
+            let data = "post_id=" + id;
+            let headers = this.getHeaders();
+            return this._http.post(this._url + this._get, data, {headers: headers})
+                .map((response: Response) => <IPost> response.json())
+                .catch(this.localError);
+        } else {
+            let data = "post_id=" + id;
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            return this._http.post(this._url + this._get, data, {headers: headers})
+                .map((response: Response) => <IPost> response.json())
+                .catch(this.localError);
+        }
     }
 
     upvotePost(id: number): void {
