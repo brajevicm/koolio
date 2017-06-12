@@ -36,12 +36,12 @@ export class PostComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (this.currentUser) {
+            this.getUser();
+        }
         this.sub = this._route.params
             .subscribe(
                 params => {
-                    if (this.currentUser) {
-                        this.getUser();
-                    }
                     let id = +params['id'];
                     this.getPost(id);
                     this.getComments(id);
