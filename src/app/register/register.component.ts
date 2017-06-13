@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {AlertService} from "../_services/alert.service";
 import {humanizeBytes, UploadFile, UploadInput, UploadOutput} from "ngx-uploader";
 import {AuthService} from "../_services/auth.service";
+import {TimerObservable} from "rxjs/observable/TimerObservable";
 
 @Component({
     selector: 'register',
@@ -14,6 +15,7 @@ import {AuthService} from "../_services/auth.service";
 export class RegisterComponent implements OnInit {
     model: any = {};
     loading = false;
+    registered = false;
     files: UploadFile[];
     uploadInput: EventEmitter<UploadInput>;
     humanizeBytes: Function;
@@ -77,7 +79,6 @@ export class RegisterComponent implements OnInit {
         };
 
         this.uploadInput.emit(event);
-        this.loading = true;
     }
 
     cancelUpload(id: string): void {
@@ -85,12 +86,27 @@ export class RegisterComponent implements OnInit {
     }
 
     login() {
-        this._authService.login(this.model.username, this.model.password);
-        this._router.navigate(['/hot']);
+        this.loading = true;
+        this._authService.login(this.model.username, this.model.password)
+            .subscribe(
+                data => {
+                    let timer = TimerObservable.create(1000, 500);
+                    timer.subscribe(t => {
+                        location.reload();
+                        this._router.navigate(['returnUrl']);
+                    });
+                },
+                error => {
+                    this._alertService.error('Invalid username or password');
+                    this.loading = false;
+                }
+            )
+        ;
     }
 
     register() {
         this.startUpload();
+        this.registered = true;
         // this.loading = true;
         // this._userService.registerUser(
         //     this.model.username,

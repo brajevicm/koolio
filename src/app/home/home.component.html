@@ -29,11 +29,15 @@
                             [routerLink]="['/fresh']">Fresh</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" *ngIf="!currentUser">
-                    <li (click)="setTitle('Koolio | Register')" [routerLinkActive]="['underline']">
-                        <a [routerLink]="['/register']">Register</a>
-                    </li>
                     <li>
                         <app-login></app-login>
+                    </li>
+                    <li (click)="setTitle('Koolio | Register')">
+                        <div class="form-group" style="margin-left: -20px;">
+                            <form class="navbar-form" name="form">
+                                <button class="btn btn-default" [routerLink]="['/register']">Register</button>
+                            </form>
+                        </div>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" *ngIf="currentUser">

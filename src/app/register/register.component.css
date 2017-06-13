@@ -11,6 +11,10 @@
 /*display: none;*/
 /*}*/
 
+.mr-10 {
+    margin-right: 10px;
+}
+
 .progress-bar-container {
     width: 100%;
     height: 4px;
