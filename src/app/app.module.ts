@@ -20,6 +20,7 @@ import {PostGuard} from "./_guards/post.guard";
 import {UploadComponent} from "./upload/upload.component";
 import {NgUploaderModule} from "ngx-uploader";
 import {RegisterGuard} from "./_guards/register.guard";
+import {SharedService} from './_services/shared.service';
 
 @NgModule({
     declarations: [
@@ -46,7 +47,8 @@ import {RegisterGuard} from "./_guards/register.guard";
         RegisterGuard,
         AlertService,
         AuthService,
-        UserService
+        UserService,
+        SharedService
     ],
     bootstrap: [AppComponent]
 })

@@ -5,6 +5,7 @@ import "rxjs/operator/map";
 import "rxjs/operator/do";
 import "rxjs/operator/catch";
 import {Injectable} from "@angular/core";
+import {SharedService} from './shared.service';
 /**
  * Created by brajevicm on 2/06/17.
  */
@@ -24,14 +25,19 @@ export class PostService {
     private _upvoted = 'upvoted.php';
     private _upvote = 'upvote.php';
 
-    constructor(private _http: Http) {
+    constructor(private _http: Http, private _sharedService: SharedService) {
     }
+
+/*
+  const data = JSON.stringify({id: id, text: text});
+  const options = this._sharedService.getOptions();*/
+
 
     addPost(title: string) {
         if (localStorage.getItem('currentUser')) {
-            let data = "title=" + title;
-            let headers = this.getHeaders();
-            this._http.post(this._url + this._add, data, {headers: headers})
+          const data = JSON.stringify({title: title});
+          const options = this._sharedService.getOptions();
+            this._http.post(this._url + this._add, data, options)
                 .map(res => res)
                 .do(data => console.log(data))
                 .subscribe(data => data,
@@ -45,108 +51,82 @@ export class PostService {
      * TODO
      * @returns {Observable<R|T>}
      */
+/*    proveriti sta i kako sa offset pri slanju kroz JSON */
     getHotPosts(offset: number): Observable<IPost[]> {
         if (localStorage.getItem('currentUser')) {
             let data = "offset=" + offset;
             let headers = this.getHeaders();
-            return this._http.post(this._url + this._get, data, {headers: headers})
+          const options = this._sharedService.getOptions();
+            return this._http.post(this._url + this._get, data, options)
                 .map((response: Response) => <IPost[]> response.json().posts)
                 // .do(data => console.log('All: ' + JSON.stringify(data)))
                 .catch(this.localError);
         } else {
             let data = "offset=" + offset;
-            let headers = new Headers();
-            headers.append('Content-Type', 'application/x-www-form-urlencoded');
-            return this._http.post(this._url + this._get, data, {headers: headers})
+          let headers = this.getHeaders();
+          const options = this._sharedService.getOptions();
+          headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            return this._http.post(this._url + this._get, data, options)
                 .map((response: Response) => <IPost[]> response.json().posts)
                 // .do(data => console.log('All: ' + JSON.stringify(data)))
                 .catch(this.localError);
         }
     }
 
-    /**
-     * TODO
-     * @returns {Observable<R|T>}
-     */
+
     getTrendingPosts(): Observable<IPost[]> {
-        if (localStorage.getItem('currentUser')) {
-            let headers = this.getHeaders();
-            return this._http.get(this._url + this._get, {headers: headers})
+          const options = this._sharedService.getOptions();
+            return this._http.get(this._url + this._get, options)
                 .map((response: Response) => <IPost[]> response.json().posts)
                 // .do(data => console.log('All: ' + JSON.stringify(data)))
                 .catch(this.localError);
-        } else {
-            return this._http.get(this._url + this._get)
-                .map((response: Response) => <IPost[]> response.json().posts)
-                // .do(data => console.log('All: ' + JSON.stringify(data)))
-                .catch(this.localError);
-        }
     }
 
-    /**
-     * TODO
-     * @returns {Observable<R|T>}
-     */
+
     getFreshPosts(): Observable<IPost[]> {
-        if (localStorage.getItem('currentUser')) {
-            let headers = this.getHeaders();
-            return this._http.get(this._url + this._get, {headers: headers})
+      const options = this._sharedService.getOptions();
+            return this._http.get(this._url + this._get, options)
                 .map((response: Response) => <IPost[]> response.json().posts)
                 // .do(data => console.log('All: ' + JSON.stringify(data)))
                 .catch(this.localError);
-        } else {
-            return this._http.get(this._url + this._get)
-                .map((response: Response) => <IPost[]> response.json().posts)
-                // .do(data => console.log('All: ' + JSON.stringify(data)))
-                .catch(this.localError);
-        }
     }
 
     getPostsFromUser(): Observable<IPost[]> {
-        let headers = this.getHeaders();
-        return this._http.get(this._url + this._user, {headers: headers})
+      const options = this._sharedService.getOptions();
+        return this._http.get(this._url + this._user, options)
             .map((response: Response) => <IPost[]> response.json().posts)
             // .do(data => console.log('getPostsFromUser: ' + JSON.stringify(data)))
             .catch(this.localError);
     }
 
     getUpvotedPosts(): Observable<IPost[]> {
-        let headers = this.getHeaders();
-        return this._http.get(this._url + this._upvoted, {headers: headers})
+      const options = this._sharedService.getOptions();
+        return this._http.get(this._url + this._upvoted, options)
             .map((response: Response) => <IPost[]> response.json().posts)
             // .do(data => console.log('getUpvotedPosts: ' + JSON.stringify(data)))
             .catch(this.localError);
     }
 
     getTopCommentedPosts(): Observable<IPost[]> {
-        let headers = this.getHeaders();
-        return this._http.get(this._url + this._top, {headers: headers})
+      const options = this._sharedService.getOptions();
+        return this._http.get(this._url + this._top, options)
             .map((response: Response) => <IPost[]> response.json().posts)
             // .do(data => console.log('getUpvotedPosts: ' + JSON.stringify(data)))
             .catch(this.localError);
     }
 
     getPost(id: number): Observable<IPost> {
-        if (localStorage.getItem('currentUser')) {
-            let data = "post_id=" + id;
-            let headers = this.getHeaders();
-            return this._http.post(this._url + this._get, data, {headers: headers})
+      const data = JSON.stringify({post_id: id});
+      const options = this._sharedService.getOptions();
+            return this._http.post(this._url + this._get, data, options)
                 .map((response: Response) => <IPost> response.json())
                 .catch(this.localError);
-        } else {
-            let data = "post_id=" + id;
-            let headers = new Headers();
-            headers.append('Content-Type', 'application/x-www-form-urlencoded');
-            return this._http.post(this._url + this._get, data, {headers: headers})
-                .map((response: Response) => <IPost> response.json())
-                .catch(this.localError);
-        }
     }
 
     upvotePost(id: number): void {
-        let data = "post_id=" + id;
-        let headers = this.getHeaders();
-        this._http.post(this._url + this._upvote, data, {headers: headers})
+      const data = JSON.stringify({post_id: id});
+      const options = this._sharedService.getOptions();
+        this._http.post(this._url + this._upvote, data, options)
             .map(res => res)
             .subscribe(data => data,
                 err => this.localError(err)
@@ -155,9 +135,9 @@ export class PostService {
     }
 
     removePost(id: number): void {
-        let data = "post_id=" + id;
-        let headers = this.getHeaders();
-        this._http.post(this._url + this._remove, data, {headers: headers})
+      const data = JSON.stringify({post_id: id});
+      const options = this._sharedService.getOptions();
+        this._http.post(this._url + this._remove, data, options)
             .map(res => res)
             .subscribe(data => data,
                 err => this.localError(err)
@@ -166,9 +146,9 @@ export class PostService {
     }
 
     reportPost(id: number): void {
-        let data = "post_id=" + id;
-        let headers = this.getHeaders();
-        this._http.post(this._url + this._report, data, {headers: headers})
+      const data = JSON.stringify({post_id: id});
+      const options = this._sharedService.getOptions();
+        this._http.post(this._url + this._report, data, options)
             .map(res => res)
             .subscribe(data => data,
                 err => this.localError(err)
@@ -176,13 +156,20 @@ export class PostService {
         ;
     }
 
-    private getHeaders(): Headers {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        headers.append('token', localStorage.getItem('currentUser'));
-        return headers;
-    }
 
+  /**
+   * TODO
+   * @returns {Headers}
+   * Remove this function after cleaning up of functions above
+   * Sincerelly,
+   * SS
+   */
+  private getHeaders(): Headers {
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    return headers;
+  }
     private localError(error: Response) {
         console.error(error);
         return Observable.throw(error.json() || 'Server error');

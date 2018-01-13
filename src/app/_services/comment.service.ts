@@ -1,104 +1,86 @@
-import {Headers, Http, Response} from "@angular/http";
-import {Injectable} from "@angular/core";
-import {Observable} from "rxjs/Observable";
-import {IComment} from "../_models/comment";
+import {Headers, Http, Response} from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {IComment} from '../_models/comment';
+import {SharedService} from './shared.service';
+
 /**
  * Created by brajevicm on 4/06/17.
  */
 
 @Injectable()
 export class CommentService {
-    private _url = 'http://127.0.0.1:80/koolio-api/api/comments/';
-    private _get = 'get.php';
-    private _user = 'user.php';
-    private _add = 'add.php';
-    private _remove = 'remove.php';
-    private _report = 'report.php';
-    private _upvote = 'upvote.php';
+  private _url = 'http://127.0.0.1:8080/comments/';
+  private _get = 'get.php';
+  private _user = 'user.php';
+  private _add = 'add.php';
+  private _remove = 'remove.php';
+  private _report = 'report.php';
+  private _upvote = 'upvote.php';
 
-    constructor(private _http: Http) {
-    }
+  constructor(private _http: Http, private _sharedService: SharedService) {
+  }
 
-    addComment(id: number, text: string) {
-        let data = "post_id=" + id + "&text=" + text;
-        let headers = this.getHeaders();
-        this._http.post(this._url + this._add, data, {headers: headers})
-            .map(res => res)
-            .subscribe(data => data,
-                err => this.localError(err)
-            )
-    }
+  addComment(id: number, text: string) {
+    const data = JSON.stringify({id: id, text: text});
+    const options = this._sharedService.getOptions();
+    return this._http.post(this._url + this._add, data, options)
+      .map(res => res)
+      .subscribe(data => data,
+        err => this.localError(err)
+      );
+  }
 
-    upvoteComment(id: number): void {
-        let data = "comment_id=" + id;
-        let headers = this.getHeaders();
-        this._http.post(this._url + this._upvote, data, {headers: headers})
-            .map(res => res)
-            .subscribe(data => data,
-                err => this.localError(err)
-            )
-        ;
-    }
 
-    getFilteredComments(): Observable<IComment[]> {
-        return this._http.get(this._url + this._get)
-            .map((response: Response) => <IComment[]> response.json())
-            .catch(this.localError);
-    }
+  upvoteComment(id: number): void {
+    const data = JSON.stringify({id: id});
+    const options = this._sharedService.getOptions();
+    this._http.post(this._url + this._upvote, data, options)
+      .map(res => res)
+      .subscribe(data => data,
+        err => this.localError(err)
+      );
+  }
 
-    getPostComments(id: number): Observable<IComment[]> {
-        if (localStorage.getItem('currentUser')) {
-            let data = "post_id=" + id;
-            let headers = this.getHeaders();
-            return this._http.post(this._url + this._get, data, {headers: headers})
-                .map((response: Response) => <IComment[]> response.json().comments)
-        } else {
-            let data = "post_id=" + id;
-            let headers = new Headers();
-            headers.append('Content-Type', 'application/x-www-form-urlencoded');
-            return this._http.post(this._url + this._get, data, {headers: headers})
-                .map((response: Response) => <IComment[]> response.json().comments)
-        }
-    }
+  getPostComments(id: number): Observable<IComment[]> {
+    const data = JSON.stringify({post_id: id});
+    const options = this._sharedService.getOptions();
 
-    getCommentsFromUser(): Observable<IComment[]> {
-        let headers = this.getHeaders();
-        return this._http.get(this._url + this._user, {headers: headers})
-            .map((response: Response) => <IComment[]> response.json().comments)
-            .catch(this.localError);
-    }
+    return this._http.post(this._url + this._get, data, options)
+      .map((response: Response) => <IComment[]> response.json().comments)
+      .catch(this.localError);
+  }
 
-    removeComment(id: number): void {
-        let data = "comment_id=" + id;
-        let headers = this.getHeaders();
-        this._http.post(this._url + this._remove, data, {headers: headers})
-            .map(res => res)
-            .subscribe(data => data,
-                err => this.localError(err)
-            )
-        ;
-    }
+  getCommentsFromUser(): Observable<IComment[]> {
+    const options = this._sharedService.getOptions();
+    return this._http.get(this._url + this._user, options)
+      .map((response: Response) => <IComment[]> response.json().comments)
+      .catch(this.localError);
+  }
 
-    reportComment(id: number): void {
-        let data = "comment_id=" + id;
-        let headers = this.getHeaders();
-        this._http.post(this._url + this._report, data, {headers: headers})
-            .map(res => res)
-            .subscribe(data => data,
-                err => this.localError(err)
-            )
-        ;
-    }
+  removeComment(id: number): void {
+    const data = JSON.stringify({comment_id: id});
+    const options = this._sharedService.getOptions();
+    this._http.post(this._url + this._remove, data, options)
+      .map(res => res)
+      .subscribe(data => data,
+        err => this.localError(err)
+      )
+    ;
+  }
 
-    private getHeaders(): Headers {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        headers.append('token', localStorage.getItem('currentUser'));
-        return headers;
-    }
-
-    private localError(error: Response) {
-        console.error(error);
-        return Observable.throw(error.json() || 'Server error');
-    }
+  reportComment(id: number): void {
+    const data = JSON.stringify({comment_id: id});
+    const options = this._sharedService.getOptions();
+    this._http.post(this._url + this._report, data, options)
+      .map(res => res)
+      .subscribe(data => data,
+        err => this.localError(err)
+      )
+    ;
+  }
+  private localError(error: Response) {
+    console.error(error);
+    return Observable.throw(error.json() || 'Server error');
+  }
 }
