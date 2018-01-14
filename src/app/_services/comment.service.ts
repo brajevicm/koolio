@@ -1,8 +1,9 @@
-import {Headers, Http, Response} from '@angular/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {IComment} from '../_models/comment';
-import {SharedService} from './shared.service';
+import { Headers, Http, Response } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { IComment } from '../_models/comment';
+import { SharedService } from './shared.service';
+import { API_URL, COMMENTS, COMMENT, USER, POST } from '../../constants';
 
 /**
  * Created by brajevicm on 4/06/17.
@@ -10,77 +11,81 @@ import {SharedService} from './shared.service';
 
 @Injectable()
 export class CommentService {
-  private _url = 'http://127.0.0.1:8080/comments/';
-  private _get = 'get.php';
-  private _user = 'user.php';
-  private _add = 'add.php';
-  private _remove = 'remove.php';
   private _report = 'report.php';
   private _upvote = 'upvote.php';
 
-  constructor(private _http: Http, private _sharedService: SharedService) {
+  constructor(private _http: Http,
+              private _sharedService: SharedService) {
   }
 
-  addComment(id: number, text: string) {
+  public addComment(id: number, text: string): void {
     const data = JSON.stringify({id: id, text: text});
     const options = this._sharedService.getOptions();
-    return this._http.post(this._url + this._add, data, options)
+    const url = API_URL + COMMENTS;
+
+    this._http.post(url, data, options)
       .map(res => res)
-      .subscribe(data => data,
-        err => this.localError(err)
+      .subscribe(next => next,
+        err => this._sharedService.localError(err)
       );
   }
 
-
-  upvoteComment(id: number): void {
+// @TODO Upvote comment has to wait for backend
+  public upvoteComment(id: number): void {
     const data = JSON.stringify({id: id});
     const options = this._sharedService.getOptions();
-    this._http.post(this._url + this._upvote, data, options)
+    const url = API_URL + this._upvote;
+
+    this._http.post(url, data, options)
       .map(res => res)
-      .subscribe(data => data,
-        err => this.localError(err)
+      .subscribe(next => next,
+        err => this._sharedService.localError(err)
       );
   }
 
-  getPostComments(id: number): Observable<IComment[]> {
+  // @TODO http.delete instead of http.post
+  public removeComment(id: number): void {
+    const data = JSON.stringify({comment_id: id});
+    const options = this._sharedService.getOptions();
+    const url = API_URL + COMMENT + id;
+
+    this._http.post(url, data, options)
+      .map(res => res)
+      .subscribe(next => next,
+        err => this._sharedService.localError(err)
+      )
+    ;
+  }
+
+  // @TODO Report comment has to wait for backend
+  public reportComment(id: number): void {
+    const data = JSON.stringify({comment_id: id});
+    const options = this._sharedService.getOptions();
+    const url = API_URL + this._report;
+
+    this._http.post(url, data, options)
+      .map(res => res)
+      .subscribe(next => next,
+        err => this._sharedService.localError(err)
+      );
+  }
+
+  public getPostComments(id: number): Observable<IComment[]> {
     const data = JSON.stringify({post_id: id});
     const options = this._sharedService.getOptions();
+    const url = API_URL + POST + id + '/' + COMMENTS;
 
-    return this._http.post(this._url + this._get, data, options)
+    return this._http.post(url, data, options)
       .map((response: Response) => <IComment[]> response.json().comments)
-      .catch(this.localError);
+      .catch(this._sharedService.localError);
   }
 
-  getCommentsFromUser(): Observable<IComment[]> {
+  public getCommentsFromUser(id: number): Observable<IComment[]> {
     const options = this._sharedService.getOptions();
-    return this._http.get(this._url + this._user, options)
+    const url = API_URL + USER + id + '/' + COMMENTS;
+
+    return this._http.get(url, options)
       .map((response: Response) => <IComment[]> response.json().comments)
-      .catch(this.localError);
-  }
-
-  removeComment(id: number): void {
-    const data = JSON.stringify({comment_id: id});
-    const options = this._sharedService.getOptions();
-    this._http.post(this._url + this._remove, data, options)
-      .map(res => res)
-      .subscribe(data => data,
-        err => this.localError(err)
-      )
-    ;
-  }
-
-  reportComment(id: number): void {
-    const data = JSON.stringify({comment_id: id});
-    const options = this._sharedService.getOptions();
-    this._http.post(this._url + this._report, data, options)
-      .map(res => res)
-      .subscribe(data => data,
-        err => this.localError(err)
-      )
-    ;
-  }
-  private localError(error: Response) {
-    console.error(error);
-    return Observable.throw(error.json() || 'Server error');
+      .catch(this._sharedService.localError);
   }
 }
