@@ -14,6 +14,7 @@ import { SharedService } from './shared.service';
 
 @Injectable()
 export class UserService {
+
   constructor(private _http: Http,
               private _sharedService: SharedService) {
   }

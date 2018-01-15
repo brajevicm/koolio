@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '../_services/alert.service';
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import { IUser } from '../_models/user';
+import { UserService } from '../_services/user.service';
+import { SharedService } from '../_services/shared.service';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -15,11 +18,11 @@ export class LoginComponent implements OnInit {
   model: any = {};
   loading = false;
   returnUrl: string;
-  user: IUser;
 
   constructor(private _route: ActivatedRoute,
               private _router: Router,
               private _authService: AuthService,
+              private _sharedService: SharedService,
               private _alertService: AlertService) {
   }
 
@@ -32,11 +35,7 @@ export class LoginComponent implements OnInit {
     this._authService.login(this.model.username, this.model.password)
       .subscribe(
         data => {
-          const timer = TimerObservable.create(1000, 500);
-          timer.subscribe(t => {
-            location.reload();
-            this._router.navigate(['returnUrl']);
-          });
+          location.reload();
         },
         error => {
           this._alertService.error(error);

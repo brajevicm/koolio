@@ -7,6 +7,8 @@ import { AlertService } from '../_services/alert.service';
 import { UserService } from '../_services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '../_services/shared.service';
+import { Observable } from 'rxjs/Observable';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'pages',
@@ -17,7 +19,7 @@ export class PostsComponent implements OnInit {
   posts: IPost[];
   topCommented: IPost[];
   currentUser: IUser;
-  user: IUser;
+  isLoggedIn: Observable<boolean>;
   loading = false;
   commentText: string;
   offset = 0;
@@ -26,10 +28,8 @@ export class PostsComponent implements OnInit {
               private _userService: UserService,
               private _commentService: CommentService,
               private _alertService: AlertService,
-              private _sharedService: SharedService,
-              private _route: ActivatedRoute,
-              private _router: Router) {
-    this.currentUser = JSON.parse(_sharedService.getToken());
+              private _authService: AuthService) {
+    this.isLoggedIn = this._authService.isLoggedIn();
   }
 
   ngOnInit() {
@@ -68,7 +68,7 @@ export class PostsComponent implements OnInit {
     const id = 1; // fake id
     return this._userService.getUser(id)
       .subscribe(
-        user => this.user = user,
+        user => user,
         error => this._alertService.error(error)
       );
   }

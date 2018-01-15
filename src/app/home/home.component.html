@@ -28,7 +28,7 @@
           <li (click)="setTitle('Koolio | Fresh')" [routerLinkActive]="['underline']"><a
             [routerLink]="['/fresh']">Fresh</a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right" *ngIf="!currentUser">
+        <ul class="nav navbar-nav navbar-right" *ngIf="!(isLoggedIn | async)">
           <li>
             <app-login></app-login>
           </li>
@@ -40,7 +40,7 @@
             </div>
           </li>
         </ul>
-        <ul class="nav navbar-nav navbar-right" *ngIf="currentUser">
+        <ul class="nav navbar-nav navbar-right" *ngIf="(isLoggedIn | async)">
           <li [routerLinkActive]="['underline']">
             <a [routerLink]="['/upload']">Upload</a>
           </li>

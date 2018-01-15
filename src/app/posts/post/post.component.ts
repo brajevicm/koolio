@@ -10,6 +10,8 @@ import { Title } from '@angular/platform-browser';
 import { IUser } from '../../_models/user';
 import { UserService } from '../../_services/user.service';
 import { SharedService } from '../../_services/shared.service';
+import { Observable } from 'rxjs/Observable';
+import { AuthService } from '../../_services/auth.service';
 
 @Component({
   selector: 'page',
@@ -18,7 +20,7 @@ import { SharedService } from '../../_services/shared.service';
 })
 export class PostComponent implements OnInit, OnDestroy {
   currentUser: IUser;
-  user: IUser;
+  isLoggedIn: Observable<boolean>;
   post: IPost;
   comments: IComment[];
   upvoted = false;
@@ -33,8 +35,9 @@ export class PostComponent implements OnInit, OnDestroy {
               private _sharedService: SharedService,
               private _postService: PostService,
               private _alertService: AlertService,
+              private _authService: AuthService,
               private _title: Title) {
-    this.currentUser = JSON.parse(_sharedService.getToken());
+    this.isLoggedIn = this._authService.isLoggedIn();
   }
 
   ngOnInit() {
@@ -62,7 +65,7 @@ export class PostComponent implements OnInit, OnDestroy {
     const id = 1; // fake
     return this._userService.getUser(id)
       .subscribe(
-        user => this.user = user,
+        user => user,
         error => this._alertService.error(error)
       );
   }

@@ -4,6 +4,10 @@ import { Observable } from 'rxjs/Observable';
 import { SharedService } from './shared.service';
 import 'rxjs/add/operator/map';
 import { API_URL, AUTH, TOKEN } from '../../constants';
+import { IUser } from '../_models/user';
+import { UserService } from './user.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { TimerObservable } from 'rxjs/observable/TimerObservable';
 
 /**
  * Created by brajevicm on 2/06/17.
@@ -11,7 +15,9 @@ import { API_URL, AUTH, TOKEN } from '../../constants';
 
 @Injectable()
 export class AuthService {
-  public token: string;
+  private token: string;
+  private user: IUser;
+  isLoginSubject = new BehaviorSubject<boolean>(this._sharedService.hasToken());
 
   constructor(private _http: Http,
               private _sharedService: SharedService) {
@@ -24,15 +30,16 @@ export class AuthService {
 
     return this._http.post(url, data, options)
       .map((response: Response) => {
-          let token = response.json() && response.json().token;
+          const token = response.json() && response.json().token;
           if (token) {
             this.token = token;
-            token = JSON.stringify({username: username, token: token});
             this._sharedService.setToken(token);
-            // localStorage.setItem('token', JSON.stringify({username: username, token: token}));
-            return true;
+            const timer = TimerObservable.create(2000, 500);
+            timer.subscribe(t => {
+              this.isLoginSubject.next(true);
+              return true;
+            });
           } else {
-            // return false to indicate failed login
             return false;
           }
         }
@@ -41,5 +48,10 @@ export class AuthService {
 
   public logout() {
     localStorage.removeItem(TOKEN);
+    this.isLoginSubject.next(false);
+  }
+
+  public isLoggedIn(): Observable<boolean> {
+    return this.isLoginSubject.asObservable();
   }
 }

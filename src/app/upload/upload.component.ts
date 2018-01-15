@@ -66,7 +66,7 @@ export class UploadComponent implements OnInit {
       type: 'uploadAll',
       url: 'http://127.0.0.1:80/koolio-api/api/posts/add.php',
       method: 'POST',
-      headers: {token: localStorage.getItem('currentUser')},
+      headers: {token: localStorage.getItem('isLoggedIn')},
       data: {title: this.model.title},
       concurrency: 1
     };
