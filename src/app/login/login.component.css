@@ -1,0 +1,13 @@
+.alert-danger{
+  margin-top: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+  padding-right: 10px;
+  margin-right: 10px;
+  border-radius: 10px;
+
+}
+
+body {
+  padding-top: 65px;
+}
